@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class CardLoader : MonoBehaviour
 {
-    [SerializeField]
-    public PokemonCard[] cards;
+    //[SerializeField]
+    //public PokemonCard[] cards;
     // Start is called before the first frame update
     void Start()
     {
-        TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/cards/en/swsh8");
-        Debug.Log(setJson);
-        cards = JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
+        // Test code, will delete later.
+        //TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/cards/en/swsh8");
+        //Debug.Log(setJson);
+        //cards = JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
+    }
+
+    public static PokemonCard[] LoadCardsInSet(string setId)
+    {
+        TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/cards/en/" + setId);
+        //Debug.Log(setJson);
+        return JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
     }
 }
 
