@@ -4,17 +4,6 @@ using UnityEngine;
 
 public class SetLoader : MonoBehaviour
 {
-    //[SerializeField]
-    //public PokemonSet[] sets;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        //TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/sets/en");
-        //Debug.Log(setJson);
-        //sets = JSonUtils.FromJson<PokemonSet>(JSonUtils.FixJson(setJson.text));
-    }
-
     public static PokemonSet[] LoadAllSets()
     {
         TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/sets/en");

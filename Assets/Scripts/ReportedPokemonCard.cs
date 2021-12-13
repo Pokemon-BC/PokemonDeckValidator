@@ -9,10 +9,14 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
 {
     public Image cardImage;
     public Text quantity;
+    public Text tempName;
     public Image icon;
 
+    private CardReported source;
     private string image;
     private List<string> issues;
+    private ReportedCardInfo rci;
+    private bool mouseIn = false;
 
     public GameObject helpRoot;
     public Transform helpTextRoot;
@@ -23,9 +27,10 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
     //image, report.start.quantity, status
     public void Configure(CardReported rpc)
     {
+        source = rpc;
         int status;
         image = "";
-        if (rpc.start.reference == null)
+        if (rpc.start.reference.supertype == "nodata")
         {
             status = 1;
         }
@@ -58,15 +63,20 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             cardImage = GetComponent<Image>();
         }
-        if (image != "")
+        if (image != "" || image == null)
         {
             Debug.Log("Image not empty, downloading");
             StartCoroutine(DownloadImage(image));
+            tempName.gameObject.SetActive(false);
         }
         else
         {
             Debug.Log("No image available, skip");
+            tempName.text = source.start.reference.name;
+            tempName.gameObject.SetActive(true);
         }
+        rci = helpRoot.GetComponent<ReportedCardInfo>();
+        rci.controllerReference = this;
     }
 
     private IEnumerator DownloadImage(string MediaUrl)
@@ -78,6 +88,8 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.DataProcessingError)
         {
             Debug.Log(request.error);
+            tempName.text = source.start.reference.name;
+            tempName.gameObject.SetActive(true);
         }
         else
         {
@@ -90,6 +102,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("Pointer Enter");
+        mouseIn = true;
         if(issues.Count != 0)
         {
             helpRoot.SetActive(true);
@@ -116,6 +129,18 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("Pointer exit");
-        helpRoot.SetActive(false);
+        mouseIn = false;
+        if(!rci.mouseOver)
+        {
+            helpRoot.SetActive(false);
+        }
+    }
+
+    public void ReportPointerMove(bool pointerIn)
+    {
+        if(!mouseIn && !pointerIn)
+        {
+            helpRoot.SetActive(false);
+        }
     }
 }

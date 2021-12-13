@@ -19,18 +19,22 @@ public class CardDataCollective
             PokemonSet[] sets = SetLoader.LoadAllSets();
             for(int i = 0, count = sets.Length; i < count; i++)
             {
-                string key = sets[i].ptcgoCode;
-                if(sets[i].ptcgoCode == null)
+                PokemonSet current = sets[i];
+                string key = current.ptcgoCode;
+                if(current.ptcgoCode == null)
                 {
-                    key = sets[i].id;
+                    key = current.id;
                 }
-                if(tcgoIdToSet.ContainsKey(key))
+                if(current.legalities.standard != null || current.legalities.expanded != null)
                 {
-                    Debug.Log("Conflict between new set " + sets[i].name + " and old set " + tcgoIdToSet[key].name);
-                }
-                else
-                {
-                    tcgoIdToSet.Add(key, sets[i]);
+                    if (tcgoIdToSet.ContainsKey(key))
+                    {
+                        Debug.Log("Conflict between new set " + current.name + " and old set " + tcgoIdToSet[key].name);
+                    }
+                    else
+                    {
+                        tcgoIdToSet.Add(key, current);
+                    }
                 }
             }
         }
@@ -107,11 +111,21 @@ public class CardDataCollective
                 string name = "";
                 for (int subi = 2, subcount = subsets.Length - 2; subi < subcount; subi++)
                 {
-                    name = name + subsets[subi];
+                    name += " " + subsets[subi];
                 }
 
                 //Debug.Log("Identified Card Called: " + name + ", qty: " + quantity + ", Set: " + setId + ", Collectors ID: " + collId);
-                result.deckCards.Add(new CardInDeck(LookupCard(setId, collId), quantity));
+                PokemonCard cardRef = LookupCard(setId, collId);
+                if(cardRef == null)
+                {
+                    cardRef = new PokemonCard
+                    {
+                        name = name,
+                        legalities = new Legalities(),
+                        supertype = "nodata"
+                    };
+                }
+                result.deckCards.Add(new CardInDeck(cardRef, quantity));
             }
             else if (line.StartsWith("Total Cards -"))
             {

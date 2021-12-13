@@ -35,6 +35,7 @@ public class PokemonCard
     public string evolvesFrom;
     public string[] evolvesTo;
     public string[] rules;
+    public PokemonAbility[] abilities;
     public PokemonAttack[] attacks;
     public WeaknessResistance[] weaknesses;
     public WeaknessResistance[] resistances;
@@ -70,4 +71,12 @@ public class PokemonAttack
     public int convertedEnergyCost;
     public string damage;
     public string text;
+}
+
+[System.Serializable]
+public class PokemonAbility
+{
+    public string name;
+    public string text;
+    public string type;
 }
