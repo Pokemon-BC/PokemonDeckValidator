@@ -11,23 +11,20 @@ namespace PKMN
             public static PokemonSet[] LoadAllSets()
             {
                 TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/sets/en");
-                //Debug.Log(setJson);
                 return JSonUtils.FromJson<PokemonSet>(JSonUtils.FixJson(setJson.text));
             }
 
             public static PokemonCard[] LoadCardsInSet(string setId)
             {
                 TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/cards/en/" + setId);
-                //Debug.Log(setJson);
                 return JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
             }
         }
 
         static class CardHelper
         {
-            public static CardSupertype GetSupertype(PokemonCard card)
+            public static CardSupertype GetSupertype(string supertype)
             {
-                string supertype = card.supertype;
                 if (supertype == "Pokémon")
                 {
                     return CardSupertype.POKEMON;
@@ -139,24 +136,47 @@ namespace PKMN
         [System.Serializable]
         public class PokemonSet
         {
-            public string id;
-            public string name;
-            public string series;
-            public int printedTotal;
-            public int total;
-            public Legalities legalities;
-            public string ptcgoCode;
-            public string releaseDate;
-            public string updatedAt;
-            public SetImages images;
+            [SerializeField]
+            private string id;
+            public string ID { get => id; }
+            [SerializeField]
+            private string name;
+            public string Name { get => name; }
+            [SerializeField]
+            private string series;
+            public string Series { get => series; }
+            [SerializeField]
+            private int printedTotal;
+            public int PrintedTotal { get => printedTotal; }
+            [SerializeField]
+            private int total;
+            public int Total { get => total; }
+            [SerializeField]
+            private Legalities legalities;
+            public Legalities Legalities { get => legalities; }
+            [SerializeField]
+            private string ptcgoCode;
+            public string PtcgoCode { get => ptcgoCode; }
+            [SerializeField]
+            private string releaseDate;
+            public string ReleaseDate { get => releaseDate; }
+            [SerializeField]
+            private string updatedAt;
+            public string UpdatedAt { get => updatedAt; }
+            [SerializeField]
+            private SetImages images;
+            public SetImages Images { get => images; }
         }
 
         [System.Serializable]
         public class Legalities
         {
-            public string unlimited;
-            public string standard;
-            public string expanded;
+            [SerializeField]
+            private string unlimited;
+            [SerializeField]
+            private string standard;
+            [SerializeField]
+            private string expanded;
 
             public bool Unlimited
             {
@@ -186,35 +206,25 @@ namespace PKMN
         [System.Serializable]
         public class SetImages
         {
-            public string symbol;
-            public string logo;
+            [SerializeField]
+            private string symbol;
+            public string Symbol { get => symbol; }
+            [SerializeField]
+            private string logo;
+            public string Logo { get => logo; }
         }
 
         [System.Serializable]
         public class PokemonCard
         {
-            public string id;
-            public string name;
-            public string supertype;
-            public string[] subtypes;
-            public string hp;
-            public string[] types;
-            public string evolvesFrom;
-            public string[] evolvesTo;
-            public string[] rules;
-            public PokemonAbility[] abilities;
-            public PokemonAttack[] attacks;
-            public WeaknessResistance[] weaknesses;
-            public WeaknessResistance[] resistances;
-            public int convertedRetreatCost;
-            public int number;
-            public string artist;
-            public string rarity;
-            public string flavorText;
-            public int[] nationalPokedexNumbers;
-            public Legalities legalities;
-            public CardImages images;
-
+            [SerializeField]
+            private string id;
+            public string ID { get => id; }
+            [SerializeField]
+            private string name;
+            public string Name { get => name; }
+            [SerializeField]
+            private string supertype;
             private CardSupertype _supertype = CardSupertype.UNKNOWN;
             public CardSupertype Supertype
             {
@@ -226,33 +236,18 @@ namespace PKMN
                     }
                     else
                     {
-                        return _supertype = CardHelper.GetSupertype(this);
+                        return _supertype = CardHelper.GetSupertype(supertype);
                     }
                 }
             }
-
-            private PokemonType[] _types;
-            public PokemonType[] Types
-            {
-                get
-                {
-                    if(_types !=  null)
-                    {
-                        return _types;
-                    }
-                    else
-                    {
-                        return _types = CardHelper.GetTypes(types);
-                    }
-                }
-            }
-
+            [SerializeField]
+            private string[] subtypes;
             private CardSubtype[] _subtypes;
             public CardSubtype[] Subtypes
             {
                 get
                 {
-                    if(_subtypes != null)
+                    if (_subtypes != null)
                     {
                         return _subtypes;
                     }
@@ -262,24 +257,91 @@ namespace PKMN
                     }
                 }
             }
+            [SerializeField]
+            private string hp;
+            // TODO can this be an int?
+            public string HP { get => hp; }
+            [SerializeField]
+            private string[] types;
+            private PokemonType[] _types;
+            public PokemonType[] Types
+            {
+                get
+                {
+                    if (_types != null)
+                    {
+                        return _types;
+                    }
+                    else
+                    {
+                        return _types = CardHelper.GetTypes(types);
+                    }
+                }
+            }
+            [SerializeField]
+            private string evolvesFrom;
+            public string EvolvesFrom { get => evolvesFrom; }
+            [SerializeField]
+            private string[] evolvesTo;
+            public string[] EvolvesTo { get => evolvesTo; }
+            [SerializeField]
+            private string[] rules;
+            public string[] Rules { get => rules; }
+            [SerializeField]
+            private PokemonAbility[] abilities;
+            public PokemonAbility[] Abilities { get => abilities; }
+            [SerializeField]
+            private PokemonAttack[] attacks;
+            public PokemonAttack[] Attacks { get => attacks; }
+            [SerializeField]
+            private WeaknessResistance[] weaknesses;
+            public WeaknessResistance[] Weakness { get => weaknesses; }
+            [SerializeField]
+            private WeaknessResistance[] resistances;
+            public WeaknessResistance[] Resistances { get => resistances; }
+            [SerializeField]
+            private int convertedRetreatCost;
+            public int ConvertedRetreatCost { get => convertedRetreatCost; }
+            [SerializeField]
+            private int number;
+            public int Number { get => number; }
+            [SerializeField]
+            private string artist;
+            public string Artist { get => artist; }
+            [SerializeField]
+            private string rarity;
+            // TODO can probably be an enum
+            public string Rarity { get => rarity; }
+            [SerializeField]
+            private string flavorText;
+            public string FlavorText { get => flavorText; }
+            [SerializeField]
+            private int[] nationalPokedexNumbers;
+            public int[] NationalPokedexNumbers { get => nationalPokedexNumbers; }
+            [SerializeField]
+            private Legalities legalities;
+            public Legalities Legalities { get => legalities; }
+            [SerializeField]
+            private CardImages images;
+            public CardImages Images { get => images; }
         }
-
-        
 
         [System.Serializable]
         public class CardImages
         {
-            public string small;
-            public string large;
+            [SerializeField]
+            private string small;
+            public string Small { get => small; }
+            [SerializeField]
+            private string large;
+            public string Large { get => large; }
         }
 
         [System.Serializable]
         public class WeaknessResistance
         {
-            public string type;
-            public string value;
-
-            public PokemonType _type;
+            [SerializeField]
+            private string type;
             public PokemonType Type
             {
                 get
@@ -287,23 +349,26 @@ namespace PKMN
                     return CardHelper.GetType(type);
                 }
             }
+            [SerializeField]
+            private string value;
+            // TODO can this be an int?
+            public string Value { get => value; }
         }
 
         [System.Serializable]
         public class PokemonAttack
         {
-            public string name;
-            public string[] cost;
-            public int convertedEnergyCost;
-            public string damage;
-            public string text;
-
+            [SerializeField]
+            private string name;
+            public string Name { get => name; }
+            [SerializeField]
+            private string[] cost;
             private PokemonType[] _cost;
             public PokemonType[] Cost
             {
                 get
                 {
-                    if(_cost != null)
+                    if (_cost != null)
                     {
                         return _cost;
                     }
@@ -313,14 +378,29 @@ namespace PKMN
                     }
                 }
             }
+            [SerializeField]
+            private int convertedEnergyCost;
+            public int ConvertedEnergyCost { get => convertedEnergyCost; }
+            [SerializeField]
+            private string damage;
+            public string Damage { get => damage; }
+            [SerializeField]
+            private string text;
+            public string Text { get => text; }
         }
 
         [System.Serializable]
         public class PokemonAbility
         {
-            public string name;
-            public string text;
-            public string type;
+            [SerializeField]
+            private string name;
+            public string Name { get => name; }
+            [SerializeField]
+            private string text;
+            public string Text { get => text; }
+            [SerializeField]
+            private string type;
+            public string Type { get => type; }
         }
 
         public enum CardSupertype

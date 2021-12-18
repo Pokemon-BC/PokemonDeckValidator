@@ -30,14 +30,14 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         source = rpc;
         int status;
         image = "";
-        if (rpc.start.reference.supertype == "nodata")
+        if (rpc.start.reference.Supertype == PKMN.Cards.CardSupertype.POKEMON)
         {
             status = 1;
         }
         else
         {
             status = rpc.issues.Count == 0 ? 0 : 2;
-            image = rpc.start.reference.images.small;
+            image = rpc.start.reference.Images.Small;
         }
 
         quantity.text = rpc.start.quantity.ToString();
@@ -72,7 +72,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         else
         {
             Debug.Log("No image available, skip");
-            tempName.text = source.start.reference.name;
+            tempName.text = source.start.reference.Name;
             tempName.gameObject.SetActive(true);
         }
         rci = helpRoot.GetComponent<ReportedCardInfo>();
@@ -88,7 +88,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.DataProcessingError)
         {
             Debug.Log(request.error);
-            tempName.text = source.start.reference.name;
+            tempName.text = source.start.reference.Name;
             tempName.gameObject.SetActive(true);
         }
         else

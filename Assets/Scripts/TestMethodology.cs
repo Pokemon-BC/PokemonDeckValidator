@@ -39,15 +39,12 @@ public class TestMethodology : MonoBehaviour
         PokemonSet[] sets = PKMN.Cards.PokemonLoader.LoadAllSets();
         foreach(PokemonSet set in sets)
         {
-            if(set.legalities.Standard ||set.legalities.Expanded)
+            if(set.Legalities.Standard ||set.Legalities.Expanded)
             {
-                PokemonCard[] cards = PKMN.Cards.PokemonLoader.LoadCardsInSet(set.id);
+                PokemonCard[] cards = PKMN.Cards.PokemonLoader.LoadCardsInSet(set.ID);
                 for(int i = 0, count = cards.Length; i < count; i++)
                 {
-                    if(cards[i].subtypes != null)
-                    {
-                        CardHelper.GetSubtypes(cards[i].subtypes);
-                    }
+                    Debug.Log("Card is valid: " + (cards[i].Name != null));
                 }
             }
         }
@@ -80,7 +77,7 @@ public class UprisingFormat : PokemonFormat
             var card = new CardReported(cid, new List<string>());
             if(cid.reference != null)
             {
-                if(cid.reference.supertype == "Pokémon" && cid.reference.evolvesTo == null)
+                if(cid.reference.Supertype == CardSupertype.POKEMON && cid.reference.EvolvesTo == null)
                 {
                     card.issues.Add("Does not Evolve");
                 }
@@ -113,13 +110,13 @@ public class UprisingFormat : PokemonFormat
             }
             else
             {
-                if(reference.supertype == "Pokémon")
+                if(reference.Supertype == CardSupertype.POKEMON)
                 {
                     if(cid.quantity > 4)
                     {
                         invalidCards.Add(reference);
                     }
-                    else if(reference.evolvesTo == null || reference.evolvesTo.Length == 0)
+                    else if(reference.EvolvesTo == null || reference.EvolvesTo.Length == 0)
                     {
                         invalidCards.Add(reference);
                     }
