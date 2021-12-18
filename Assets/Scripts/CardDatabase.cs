@@ -6,7 +6,7 @@ namespace PKMN
 {
     namespace Cards
     {
-        public class PokemonLoader
+        public static class PokemonLoader
         {
             public static PokemonSet[] LoadAllSets()
             {
@@ -23,6 +23,68 @@ namespace PKMN
 
         static class CardHelper
         {
+            public static class CardDatabase
+            {
+                public static Dictionary<string, PokemonSet> tcgoIdToSet;
+                public static Dictionary<string, LoadedSet> internalIdToSet;
+
+                private static bool initialized = false;
+
+                public static void Init()
+                {
+                    tcgoIdToSet = new Dictionary<string, PokemonSet>();
+                    internalIdToSet = new Dictionary<string, LoadedSet>();
+                    initialized = true;
+                    PokemonSet[] sets = PokemonLoader.LoadAllSets();
+                    for (int i = 0, count = sets.Length; i < count; i++)
+                    {
+                        PokemonSet current = sets[i];
+                        string key = current.PtcgoCode;
+                        if (current.PtcgoCode == null)
+                        {
+                            key = current.ID;
+                        }
+                        if (current.Legalities.Standard || current.Legalities.Expanded)
+                        {
+                            if (tcgoIdToSet.ContainsKey(key))
+                            {
+                                Debug.Log("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
+                            }
+                            else
+                            {
+                                tcgoIdToSet.Add(key, current);
+                            }
+                        }
+                    }
+                }
+
+                public static PokemonCard LookupCard(string ptcgoId, int collId)
+                {
+                    if (!initialized) Init();
+                    if (tcgoIdToSet.TryGetValue(ptcgoId, out PokemonSet pokemonSet))
+                    {
+                        LoadedSet ls;
+                        if (internalIdToSet.ContainsKey(pokemonSet.ID))
+                        {
+                            ls = internalIdToSet[pokemonSet.ID];
+                        }
+                        else
+                        {
+                            PokemonCard[] cards = PokemonLoader.LoadCardsInSet(pokemonSet.ID);
+                            //internalIdToSet.Add(pokemonSet.ID, new LoadedSet(pokemonSet.ID, ptcgoId, pokemonSet, cards));
+                            //ls = internalIdToSet[pokemonSet.ID];
+                        }
+                        //return ls.setCards[collId - 1]; // -1 because arrays
+                        return null;
+                    }
+                    else
+                    {
+                        Debug.Log("Card from problematic set " + ptcgoId + " with col ID " + collId);
+                        return null;
+                    }
+                }
+            }
+
             public static CardSupertype GetSupertype(string supertype)
             {
                 if (supertype == "Pokémon")
@@ -425,8 +487,4 @@ namespace PKMN
             BASIC, TAG_TEAM, RAPID_STRIKE, SINGLE_STRIKE, FUSION_STRIKE
         }
     }
-}
-public class CardDatabase
-{
-    
 }
