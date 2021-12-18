@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using PKMN.Cards;
 public abstract class PokemonFormat
 {
     public abstract List<CardReported> processDeck(PokemonDeck deckToProcess);

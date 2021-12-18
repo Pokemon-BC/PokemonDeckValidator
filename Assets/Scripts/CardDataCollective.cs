@@ -5,7 +5,7 @@ using UnityEngine;
 public class CardDataCollective
 {
     //public List<LoadedSet> allSets;
-    public static Dictionary<string, PokemonSet> tcgoIdToSet;
+    //public static Dictionary<string, PokemonSet> tcgoIdToSet;
     public static Dictionary<string, LoadedSet> internalIdToSet;
 
     private static bool initialized = false;
@@ -13,7 +13,7 @@ public class CardDataCollective
     {
         if(!initialized)
         {
-            tcgoIdToSet = new Dictionary<string, PokemonSet>();
+            /*tcgoIdToSet = new Dictionary<string, PokemonSet>();
             internalIdToSet = new Dictionary<string, LoadedSet>();
             initialized = true;
             PokemonSet[] sets = SetLoader.LoadAllSets();
@@ -36,11 +36,11 @@ public class CardDataCollective
                         tcgoIdToSet.Add(key, current);
                     }
                 }
-            }
+            }*/
         }
     }
 
-    public static PokemonCard LookupCard(string ptcgoId, int collId)
+    /*public static PokemonCard LookupCard(string ptcgoId, int collId)
     {
         if (!initialized) Init();
         if(tcgoIdToSet.TryGetValue(ptcgoId, out PokemonSet pokemonSet))
@@ -63,7 +63,7 @@ public class CardDataCollective
             Debug.Log("Card from problematic set " + ptcgoId + " with col ID " + collId);
             return null;
         }
-    }
+    }*/
 
     // TODO take input string deck
     public static PokemonDeck LoadDeck(string decklist)
@@ -115,7 +115,7 @@ public class CardDataCollective
                 }
 
                 //Debug.Log("Identified Card Called: " + name + ", qty: " + quantity + ", Set: " + setId + ", Collectors ID: " + collId);
-                PokemonCard cardRef = LookupCard(setId, collId);
+                /*PokemonCard cardRef = LookupCard(setId, collId);
                 if(cardRef == null)
                 {
                     cardRef = new PokemonCard
@@ -125,7 +125,7 @@ public class CardDataCollective
                         supertype = "nodata"
                     };
                 }
-                result.deckCards.Add(new CardInDeck(cardRef, quantity));
+                result.deckCards.Add(new CardInDeck(cardRef, quantity));*/
             }
             else if (line.StartsWith("Total Cards -"))
             {
@@ -142,7 +142,7 @@ public class CardDataCollective
 [System.Serializable]
 public class LoadedSet
 {
-    public LoadedSet(string id, string ptcgo, PokemonSet data, PokemonCard[] cards)
+    /*public LoadedSet(string id, string ptcgo, PokemonSet data, PokemonCard[] cards)
     {
         setId = id;
         ptcgoId = ptcgo;
@@ -152,5 +152,5 @@ public class LoadedSet
     public string ptcgoId;
     public string setId;
     public PokemonSet setData;
-    public PokemonCard[] setCards;
+    public PokemonCard[] setCards;*/
 }

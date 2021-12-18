@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using PKMN.Cards;
+
 public class TestMethodology : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        TextAsset deckTest = Resources.Load<TextAsset>("Testing/TestDeck2");
+        /*TextAsset deckTest = Resources.Load<TextAsset>("Testing/TestDeck2");
         PokemonDeck loadedDeck = CardDataCollective.LoadDeck(deckTest.text);
         Debug.Log("Loaded deck with " + loadedDeck.totalCards + " cards " + loadedDeck.pokemon + " pokemon " + loadedDeck.trainers + " trainers " + loadedDeck.energies + " energies ");
         Debug.Log("Deck cards are ");
@@ -25,13 +27,29 @@ public class TestMethodology : MonoBehaviour
 
         PokemonFormat uprising = new UprisingFormat();
         Debug.Log("Does list pass uprising " + uprising.IsDeckValid(loadedDeck));
-        foreach(PokemonCard pc in uprising.GetInvalidCards())
+        /*foreach(PokemonCard pc in uprising.GetInvalidCards())
         {
             Debug.Log("Invalid card " + pc.name);
         }
         foreach(string clause in uprising.GetInvalidClauses())
         {
             Debug.Log("Invalid clause: " + clause);
+        }*/
+
+        PokemonSet[] sets = PKMN.Cards.PokemonLoader.LoadAllSets();
+        foreach(PokemonSet set in sets)
+        {
+            if(set.legalities.Standard ||set.legalities.Expanded)
+            {
+                PokemonCard[] cards = PKMN.Cards.PokemonLoader.LoadCardsInSet(set.id);
+                for(int i = 0, count = cards.Length; i < count; i++)
+                {
+                    if(cards[i].subtypes != null)
+                    {
+                        CardHelper.GetSubtypes(cards[i].subtypes);
+                    }
+                }
+            }
         }
     }
 

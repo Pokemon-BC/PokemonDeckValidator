@@ -15,68 +15,6 @@ public class CardLoader : MonoBehaviour
         //cards = JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
     }
 
-    public static PokemonCard[] LoadCardsInSet(string setId)
-    {
-        TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/cards/en/" + setId);
-        //Debug.Log(setJson);
-        return JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
-    }
+    
 }
 
-[System.Serializable]
-public class PokemonCard
-{
-    public string id;
-    public string name;
-    public string supertype;
-    public string[] subtypes;
-    public string hp;
-    public string[] types;
-    public string evolvesFrom;
-    public string[] evolvesTo;
-    public string[] rules;
-    public PokemonAbility[] abilities;
-    public PokemonAttack[] attacks;
-    public WeaknessResistance[] weaknesses;
-    public WeaknessResistance[] resistances;
-    public int convertedRetreatCost;
-    public int number;
-    public string artist;
-    public string rarity;
-    public string flavorText;
-    public int[] nationalPokedexNumbers;
-    public Legalities legalities;
-    public CardImages images;
-}
-
-[System.Serializable]
-public class CardImages
-{
-    public string small;
-    public string large;
-}
-
-[System.Serializable]
-public class WeaknessResistance
-{
-    public string type;
-    public string value;
-}
-
-[System.Serializable]
-public class PokemonAttack
-{
-    public string name;
-    public string[] cost;
-    public int convertedEnergyCost;
-    public string damage;
-    public string text;
-}
-
-[System.Serializable]
-public class PokemonAbility
-{
-    public string name;
-    public string text;
-    public string type;
-}
