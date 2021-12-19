@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
+using PKMN.Cards;
+
 public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Image cardImage;
@@ -12,7 +14,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
     public Text tempName;
     public Image icon;
 
-    private CardReported source;
+    //private CardReported source;
     private string image;
     private List<string> issues;
     private ReportedCardInfo rci;
@@ -25,7 +27,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
     public GameObject textPrefab;
 
     //image, report.start.quantity, status
-    public void Configure(CardReported rpc)
+    /*public void Configure(CardReported rpc)
     {
         source = rpc;
         int status;
@@ -54,7 +56,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
             icon.color = Color.red;
         }
         issues = rpc.issues;
-    }
+    }*/
 
     private void Start()
     {
@@ -72,7 +74,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         else
         {
             Debug.Log("No image available, skip");
-            tempName.text = source.start.reference.Name;
+            //tempName.text = source.start.reference.Name;
             tempName.gameObject.SetActive(true);
         }
         rci = helpRoot.GetComponent<ReportedCardInfo>();
@@ -88,7 +90,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.DataProcessingError)
         {
             Debug.Log(request.error);
-            tempName.text = source.start.reference.Name;
+            //tempName.text = source.start.reference.Name;
             tempName.gameObject.SetActive(true);
         }
         else

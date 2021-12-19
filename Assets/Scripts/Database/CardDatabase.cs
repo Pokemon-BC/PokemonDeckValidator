@@ -19,72 +19,139 @@ namespace PKMN
                 TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/cards/en/" + setId);
                 return JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
             }
-        }
 
-        static class CardHelper
-        {
-            public static class CardDatabase
+            public static PokemonDeck LoadDeck(string decklist)
             {
-                public static Dictionary<string, PokemonSet> tcgoIdToSet;
-                public static Dictionary<string, LoadedSet> internalIdToSet;
+                if (!CardDatabase.Initialized) CardDatabase.Init();
+                PokemonDeck result = new PokemonDeck();
 
-                private static bool initialized = false;
-
-                public static void Init()
+                string[] lines = decklist.Split('\n');
+                for (int i = 0, count = lines.Length; i < count; i++)
                 {
-                    tcgoIdToSet = new Dictionary<string, PokemonSet>();
-                    internalIdToSet = new Dictionary<string, LoadedSet>();
-                    initialized = true;
-                    PokemonSet[] sets = PokemonLoader.LoadAllSets();
-                    for (int i = 0, count = sets.Length; i < count; i++)
+                    string line = lines[i];
+                    if (line.StartsWith("******"))
                     {
-                        PokemonSet current = sets[i];
-                        string key = current.PtcgoCode;
-                        if (current.PtcgoCode == null)
+                        // Skip
+                    }
+                    else if (line.StartsWith("##"))
+                    {
+                        // Quantity Count for card type
+                        string[] subsets = line.Split(' ');
+                        string identifier = subsets[0];
+                        if (identifier.Contains("Pokémon"))
                         {
-                            key = current.ID;
+                            result.pokemon = int.Parse(subsets[2]);
                         }
-                        if (current.Legalities.Standard || current.Legalities.Expanded)
+                        else if (identifier.Contains("Trainer"))
                         {
-                            if (tcgoIdToSet.ContainsKey(key))
-                            {
-                                Debug.Log("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
-                            }
-                            else
-                            {
-                                tcgoIdToSet.Add(key, current);
-                            }
+                            result.trainers = int.Parse(subsets[3]);
+                        }
+                        else if (identifier.Contains("Energy"))
+                        {
+                            result.energies = int.Parse(subsets[2]);
                         }
                     }
-                }
-
-                public static PokemonCard LookupCard(string ptcgoId, int collId)
-                {
-                    if (!initialized) Init();
-                    if (tcgoIdToSet.TryGetValue(ptcgoId, out PokemonSet pokemonSet))
+                    else if (line.StartsWith("* "))
                     {
-                        LoadedSet ls;
-                        if (internalIdToSet.ContainsKey(pokemonSet.ID))
+                        string[] subsets = line.Split(' ');
+                        int quantity = int.Parse(subsets[1]);
+                        int collId = int.Parse(subsets[subsets.Length - 1]);
+                        string setId = subsets[subsets.Length - 2];
+                        string name = "";
+                        for (int subi = 2, subcount = subsets.Length - 2; subi < subcount; subi++)
                         {
-                            ls = internalIdToSet[pokemonSet.ID];
+                            name += " " + subsets[subi];
+                        }
+
+                        PokemonCard cardRef = CardDatabase.LookupCard(setId, collId);
+                        if(cardRef == null)
+                        {
+                            PokemonCard.GenerateErrorCard(name, setId, collId);
+                        }
+                        result.deckCards.Add(new CardInDeck(cardRef, setId, quantity));
+                    }
+                    else if (line.StartsWith("Total Cards -"))
+                    {
+                        // Final Card Count
+                        string[] subsets = line.Split(' ');
+                        result.totalCards = int.Parse(subsets[3]);
+                    }
+                }
+                return result;
+            }
+        }
+
+        public static class CardDatabase
+        {
+            public static Dictionary<string, PokemonSet> tcgoIdToSet;
+            public static Dictionary<string, LoadedSet> internalIdToSet;
+
+            private static bool initialized = false;
+            public static bool Initialized { get => initialized; }
+
+            public static void Init()
+            {
+                tcgoIdToSet = new Dictionary<string, PokemonSet>();
+                internalIdToSet = new Dictionary<string, LoadedSet>();
+                initialized = true;
+                PokemonSet[] sets = PokemonLoader.LoadAllSets();
+                for (int i = 0, count = sets.Length; i < count; i++)
+                {
+                    PokemonSet current = sets[i];
+                    string key = current.PtcgoCode;
+                    if (current.PtcgoCode == null)
+                    {
+                        key = current.ID;
+                    }
+                    if (current.Legalities.IsStandardLegal || current.Legalities.IsExpandedLegal)
+                    {
+                        if (tcgoIdToSet.ContainsKey(key))
+                        {
+                            Debug.Log("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
                         }
                         else
                         {
-                            PokemonCard[] cards = PokemonLoader.LoadCardsInSet(pokemonSet.ID);
-                            //internalIdToSet.Add(pokemonSet.ID, new LoadedSet(pokemonSet.ID, ptcgoId, pokemonSet, cards));
-                            //ls = internalIdToSet[pokemonSet.ID];
+                            tcgoIdToSet.Add(key, current);
                         }
-                        //return ls.setCards[collId - 1]; // -1 because arrays
-                        return null;
-                    }
-                    else
-                    {
-                        Debug.Log("Card from problematic set " + ptcgoId + " with col ID " + collId);
-                        return null;
                     }
                 }
             }
 
+            public static PokemonCard LookupCard(string ptcgoId, int collId)
+            {
+                if (!initialized) Init();
+                if (tcgoIdToSet.TryGetValue(ptcgoId, out PokemonSet pokemonSet))
+                {
+                    LoadedSet ls;
+                    if (internalIdToSet.ContainsKey(pokemonSet.ID))
+                    {
+                        ls = internalIdToSet[pokemonSet.ID];
+                    }
+                    else
+                    {
+                        PokemonCard[] cards = PokemonLoader.LoadCardsInSet(pokemonSet.ID);
+                        internalIdToSet.Add(pokemonSet.ID, new LoadedSet(pokemonSet.ID, ptcgoId, pokemonSet, cards));
+                        ls = internalIdToSet[pokemonSet.ID];
+                    }
+                    if (collId <= ls.setCards.Count)
+                    {
+                        return ls.setCards[collId - 1]; // -1 because arrays
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    Debug.Log("Card from problematic set " + ptcgoId + " with col ID " + collId);
+                    return null;
+                }
+            }
+        }
+
+        static class CardHelper
+        {
             public static CardSupertype GetSupertype(string supertype)
             {
                 if (supertype == "Pokémon")
@@ -193,8 +260,40 @@ namespace PKMN
                 }
                 return result;
             }
+
+            public static Legality MapLegality(string legality)
+            {
+                if (legality == null || legality == "")
+                {
+                    return Legality.ILLEGAL;
+                }
+                else if (legality == "Banned")
+                {
+                    return Legality.BANNED;
+                }
+                else
+                {
+                    return Legality.LEGAL;
+                }
+            }
         }
-        
+
+        public class LoadedSet
+        {
+            public string ptcgoId;
+            public string setId;
+            public PokemonSet setData;
+            public List<PokemonCard> setCards;
+
+            public LoadedSet(string id, string ptcgo, PokemonSet data, PokemonCard[] cards)
+            {
+                setId = id;
+                ptcgoId = ptcgo;
+                setData = data;
+                setCards = new List<PokemonCard>(cards);
+            }
+        }
+
         [System.Serializable]
         public class PokemonSet
         {
@@ -235,28 +334,28 @@ namespace PKMN
         {
             [SerializeField]
             private string unlimited;
-            [SerializeField]
-            private string standard;
-            [SerializeField]
-            private string expanded;
-
-            public bool Unlimited
+            public Legality Unlimited { get => CardHelper.MapLegality(unlimited); }
+            public bool IsUnlimitedLegal
             {
                 get
                 {
                     return unlimited != null && unlimited != "" && unlimited != "Banned";
                 }
             }
-
-            public bool Expanded
+            [SerializeField]
+            private string standard;
+            public Legality Standard { get => CardHelper.MapLegality(standard); }
+            public bool IsExpandedLegal
             {
                 get
                 {
                     return expanded != null && expanded != "" && expanded != "Banned";
                 }
             }
-
-            public bool Standard
+            [SerializeField]
+            private string expanded;
+            public Legality Expanded { get => CardHelper.MapLegality(expanded); }
+            public bool IsStandardLegal
             {
                 get
                 {
@@ -386,6 +485,16 @@ namespace PKMN
             [SerializeField]
             private CardImages images;
             public CardImages Images { get => images; }
+
+            public static PokemonCard GenerateErrorCard(string name, string set, int id)
+            {
+                PokemonCard output = new PokemonCard();
+                output.name = name;
+                output.id = set + "-" + id.ToString();
+                output.supertype = "";
+                output._supertype = CardSupertype.UNKNOWN;
+                return output;
+            }
         }
 
         [System.Serializable]
@@ -465,6 +574,67 @@ namespace PKMN
             public string Type { get => type; }
         }
 
+        public class PokemonDeck
+        {
+            public List<CardInDeck> deckCards;
+            public int pokemon, trainers, energies;
+            public int totalCards;
+
+            public List<FormatedNote> deckNotes;
+
+            public PokemonDeck()
+            {
+                deckCards = new List<CardInDeck>();
+                deckNotes = new List<FormatedNote>();
+            }
+
+            public void AddNote(NoteType severity, string message)
+            {
+                deckNotes.Add(new FormatedNote(severity, message));
+            }
+        }
+
+        public class CardInDeck
+        {
+            public PokemonCard reference;
+            public string setId;
+            public int quantity;
+            public List<FormatedNote> notes;
+
+            public CardInDeck(PokemonCard pokemonCard, string setId, int quantity)
+            {
+                this.reference = pokemonCard;
+                this.setId = setId;
+                this.quantity = quantity;
+                notes = new List<FormatedNote>();
+            }
+
+            public void AddNote(NoteType severity, string message)
+            {
+                notes.Add(new FormatedNote(severity, message));
+            }
+        }
+
+        public class FormatedNote
+        {
+            public NoteType severity;
+            public string text;
+
+            public FormatedNote(NoteType severity, string text)
+            {
+                this.severity = severity;
+                this.text = text;
+            }
+        }
+
+        public enum NoteType
+        {
+            // Note is just info for the player.
+            // Error means a C# error occured but the deck is not necessarly invalid.
+            // Invalid means the deck is invalid
+            NOTE, ERROR, INVALID
+        }
+
         public enum CardSupertype
         {
             UNKNOWN, POKEMON, TRAINER, ENERGY
@@ -485,6 +655,11 @@ namespace PKMN
             SPECIAL,
             // Common
             BASIC, TAG_TEAM, RAPID_STRIKE, SINGLE_STRIKE, FUSION_STRIKE
+        }
+
+        public enum Legality
+        {
+            ILLEGAL, LEGAL, BANNED
         }
     }
 }

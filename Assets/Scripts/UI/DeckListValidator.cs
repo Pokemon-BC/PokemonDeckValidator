@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using PKMN.Cards;
+
 public class DeckListValidator : MonoBehaviour
 {
     public Button submitButton;
@@ -22,9 +24,9 @@ public class DeckListValidator : MonoBehaviour
     private void SubmitButton()
     {
         Debug.Log("Submit button pressed");
-        UprisingFormat tempFormat = new UprisingFormat();
+        //UprisingFormat tempFormat = new UprisingFormat();
         Debug.Log("Text is " + decklist.text);
-        PokemonDeck loadedDeck = CardDataCollective.LoadDeck(decklist.text);
+        /*PokemonDeck loadedDeck = CardDataCollective.LoadDeck(decklist.text);
         List<CardReported> reports = tempFormat.processDeck(loadedDeck);
         Debug.Log("Deck loaded with " + loadedDeck.totalCards + " cards and " + reports.Count + " reports");
         foreach(CardReported report in reports)
@@ -38,7 +40,7 @@ public class DeckListValidator : MonoBehaviour
             createdCard.transform.SetParent(cardRoot);
             
             rpc.Configure(report);
-        }
+        }*/
         topLevelUI.SetActive(true);
     }
 }
