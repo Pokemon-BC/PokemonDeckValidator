@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System;
+
 namespace PKMN
 {
     namespace Cards
@@ -276,6 +278,31 @@ namespace PKMN
                     return Legality.LEGAL;
                 }
             }
+
+            public static bool ArraySameElements(object[] arr1, object[] arr2)
+            {
+                if(arr1 == null && arr2 == null)
+                {
+                    return true;
+                }
+                else if((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null))
+                {
+                    return false;
+                }
+                HashSet<object> outstanding = new HashSet<object>();
+                for (int i = 0, count = arr1.Length; i < count; i++)
+                {
+                    outstanding.Add(arr1[i]);
+                }
+                for (int i = 0, count = arr2.Length; i < count; i++)
+                {
+                    if (outstanding.Contains(arr2[i]))
+                    {
+                        outstanding.Remove(arr2[i]);
+                    }
+                }
+                return outstanding.Count == 0;
+            }
         }
 
         public class LoadedSet
@@ -291,6 +318,25 @@ namespace PKMN
                 ptcgoId = ptcgo;
                 setData = data;
                 setCards = new List<PokemonCard>(cards);
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is LoadedSet set &&
+                       ptcgoId == set.ptcgoId &&
+                       setId == set.setId &&
+                       EqualityComparer<PokemonSet>.Default.Equals(setData, set.setData) &&
+                       EqualityComparer<List<PokemonCard>>.Default.Equals(setCards, set.setCards);
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 738309204;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ptcgoId);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(setId);
+                hashCode = hashCode * -1521134295 + EqualityComparer<PokemonSet>.Default.GetHashCode(setData);
+                hashCode = hashCode * -1521134295 + EqualityComparer<List<PokemonCard>>.Default.GetHashCode(setCards);
+                return hashCode;
             }
         }
 
@@ -327,6 +373,37 @@ namespace PKMN
             [SerializeField]
             private SetImages images;
             public SetImages Images { get => images; }
+
+            public override bool Equals(object obj)
+            {
+                return obj is PokemonSet set &&
+                       id == set.id &&
+                       name == set.name &&
+                       series == set.series &&
+                       printedTotal == set.printedTotal &&
+                       total == set.total &&
+                       EqualityComparer<Legalities>.Default.Equals(legalities, set.legalities) &&
+                       ptcgoCode == set.ptcgoCode &&
+                       releaseDate == set.releaseDate &&
+                       updatedAt == set.updatedAt &&
+                       EqualityComparer<SetImages>.Default.Equals(images, set.images);
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = -340245959;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(id);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(series);
+                hashCode = hashCode * -1521134295 + printedTotal.GetHashCode();
+                hashCode = hashCode * -1521134295 + total.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<Legalities>.Default.GetHashCode(legalities);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ptcgoCode);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(releaseDate);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(updatedAt);
+                hashCode = hashCode * -1521134295 + EqualityComparer<SetImages>.Default.GetHashCode(images);
+                return hashCode;
+            }
         }
 
         [System.Serializable]
@@ -373,6 +450,21 @@ namespace PKMN
             [SerializeField]
             private string logo;
             public string Logo { get => logo; }
+
+            public override bool Equals(object obj)
+            {
+                return obj is SetImages images &&
+                       symbol == images.symbol &&
+                       logo == images.logo;
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 1339188243;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(symbol);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(logo);
+                return hashCode;
+            }
         }
 
         [System.Serializable]
@@ -486,6 +578,76 @@ namespace PKMN
             private CardImages images;
             public CardImages Images { get => images; }
 
+            public bool IsReprintOf(PokemonCard other)
+            {
+                return other.name == name && 
+                       other.supertype == supertype && 
+                       CardHelper.ArraySameElements(other.subtypes, subtypes) &&
+                       other.hp == hp &&
+                       CardHelper.ArraySameElements(other.types, types) &&
+                       other.evolvesFrom == evolvesFrom &&
+                       CardHelper.ArraySameElements(other.evolvesTo, evolvesTo) &&
+                       CardHelper.ArraySameElements(other.rules, rules) &&
+                       CardHelper.ArraySameElements(other.abilities, abilities) &&
+                       CardHelper.ArraySameElements(other.attacks, attacks) &&
+                       CardHelper.ArraySameElements(other.weaknesses, weaknesses) &&
+                       CardHelper.ArraySameElements(other.resistances, resistances) &&
+                       other.convertedRetreatCost == convertedRetreatCost;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is PokemonCard card &&
+                       id == card.id &&
+                       name == card.name &&
+                       supertype == card.supertype &&
+                       EqualityComparer<string[]>.Default.Equals(subtypes, card.subtypes) &&
+                       hp == card.hp &&
+                       EqualityComparer<string[]>.Default.Equals(types, card.types) &&
+                       evolvesFrom == card.evolvesFrom &&
+                       EqualityComparer<string[]>.Default.Equals(evolvesTo, card.evolvesTo) &&
+                       EqualityComparer<string[]>.Default.Equals(rules, card.rules) &&
+                       EqualityComparer<PokemonAbility[]>.Default.Equals(abilities, card.abilities) &&
+                       EqualityComparer<PokemonAttack[]>.Default.Equals(attacks, card.attacks) &&
+                       EqualityComparer<WeaknessResistance[]>.Default.Equals(weaknesses, card.weaknesses) &&
+                       EqualityComparer<WeaknessResistance[]>.Default.Equals(resistances, card.resistances) &&
+                       convertedRetreatCost == card.convertedRetreatCost &&
+                       number == card.number &&
+                       artist == card.artist &&
+                       rarity == card.rarity &&
+                       flavorText == card.flavorText &&
+                       EqualityComparer<int[]>.Default.Equals(nationalPokedexNumbers, card.nationalPokedexNumbers) &&
+                       EqualityComparer<Legalities>.Default.Equals(legalities, card.legalities) &&
+                       EqualityComparer<CardImages>.Default.Equals(images, card.images);
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 390571997;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(id);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(supertype);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string[]>.Default.GetHashCode(subtypes);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(hp);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string[]>.Default.GetHashCode(types);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(evolvesFrom);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string[]>.Default.GetHashCode(evolvesTo);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string[]>.Default.GetHashCode(rules);
+                hashCode = hashCode * -1521134295 + EqualityComparer<PokemonAbility[]>.Default.GetHashCode(abilities);
+                hashCode = hashCode * -1521134295 + EqualityComparer<PokemonAttack[]>.Default.GetHashCode(attacks);
+                hashCode = hashCode * -1521134295 + EqualityComparer<WeaknessResistance[]>.Default.GetHashCode(weaknesses);
+                hashCode = hashCode * -1521134295 + EqualityComparer<WeaknessResistance[]>.Default.GetHashCode(resistances);
+                hashCode = hashCode * -1521134295 + convertedRetreatCost.GetHashCode();
+                hashCode = hashCode * -1521134295 + number.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(artist);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(rarity);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(flavorText);
+                hashCode = hashCode * -1521134295 + EqualityComparer<int[]>.Default.GetHashCode(nationalPokedexNumbers);
+                hashCode = hashCode * -1521134295 + EqualityComparer<Legalities>.Default.GetHashCode(legalities);
+                hashCode = hashCode * -1521134295 + EqualityComparer<CardImages>.Default.GetHashCode(images);
+                return hashCode;
+            }
+
             public static PokemonCard GenerateErrorCard(string name, string set, int id)
             {
                 PokemonCard output = new PokemonCard();
@@ -495,6 +657,7 @@ namespace PKMN
                 output._supertype = CardSupertype.UNKNOWN;
                 return output;
             }
+
         }
 
         [System.Serializable]
@@ -506,6 +669,21 @@ namespace PKMN
             [SerializeField]
             private string large;
             public string Large { get => large; }
+
+            public override bool Equals(object obj)
+            {
+                return obj is CardImages images &&
+                       small == images.small &&
+                       large == images.large;
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 822727712;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(small);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(large);
+                return hashCode;
+            }
         }
 
         [System.Serializable]
@@ -524,6 +702,21 @@ namespace PKMN
             private string value;
             // TODO can this be an int?
             public string Value { get => value; }
+
+            public override bool Equals(object obj)
+            {
+                return obj is WeaknessResistance resistance &&
+                       type == resistance.type &&
+                       value == resistance.value;
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 1148455455;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(type);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(value);
+                return hashCode;
+            }
         }
 
         [System.Serializable]
@@ -558,6 +751,27 @@ namespace PKMN
             [SerializeField]
             private string text;
             public string Text { get => text; }
+
+            public override bool Equals(object obj)
+            {
+                return obj is PokemonAttack attack &&
+                       name == attack.name &&
+                       EqualityComparer<string[]>.Default.Equals(cost, attack.cost) &&
+                       convertedEnergyCost == attack.convertedEnergyCost &&
+                       damage == attack.damage &&
+                       text == attack.text;
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = 1865949528;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string[]>.Default.GetHashCode(cost);
+                hashCode = hashCode * -1521134295 + convertedEnergyCost.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(damage);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(text);
+                return hashCode;
+            }
         }
 
         [System.Serializable]
@@ -572,6 +786,23 @@ namespace PKMN
             [SerializeField]
             private string type;
             public string Type { get => type; }
+
+            public override bool Equals(object obj)
+            {
+                return obj is PokemonAbility ability &&
+                       name == ability.name &&
+                       text == ability.text &&
+                       type == ability.type;
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = -1738727807;
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(text);
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(type);
+                return hashCode;
+            }
         }
 
         public class PokemonDeck
@@ -624,6 +855,21 @@ namespace PKMN
             {
                 this.severity = severity;
                 this.text = text;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is FormatedNote note &&
+                       severity == note.severity &&
+                       text == note.text;
+            }
+
+            public override int GetHashCode()
+            {
+                int hashCode = -1008784448;
+                hashCode = hashCode * -1521134295 + severity.GetHashCode();
+                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(text);
+                return hashCode;
             }
         }
 

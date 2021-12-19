@@ -155,25 +155,23 @@ public class ShortCard
 
     public override bool Equals(object obj)
     {
-        return Equals(obj as ShortCard);
-    }
-
-    public bool Equals(ShortCard other)
-    {
-        return other != null &&
-               setCode == other.setCode &&
-               collectorsId == other.collectorsId;
+        return obj is ShortCard card &&
+               setCode == card.setCode &&
+               collectorsId == card.collectorsId;
     }
 
     public override int GetHashCode()
     {
-        return setCode.GetHashCode() * collectorsId;
+        int hashCode = 202626382;
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(setCode);
+        hashCode = hashCode * -1521134295 + collectorsId.GetHashCode();
+        return hashCode;
     }
 
     private static ShortCard _testCard;
     public static ShortCard TestCard(string set, int collId)
     {
-        if(_testCard == null)
+        if (_testCard == null)
         {
             _testCard = new ShortCard(set, collId);
             return _testCard;
