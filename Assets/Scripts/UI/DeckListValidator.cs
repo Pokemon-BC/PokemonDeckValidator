@@ -25,13 +25,14 @@ public class DeckListValidator : MonoBehaviour
     {
         Debug.Log("Submit button pressed");
         //UprisingFormat tempFormat = new UprisingFormat();
+        StandardFormat tempFormat = new StandardFormat();
         Debug.Log("Text is " + decklist.text);
-        /*PokemonDeck loadedDeck = CardDataCollective.LoadDeck(decklist.text);
-        List<CardReported> reports = tempFormat.processDeck(loadedDeck);
-        Debug.Log("Deck loaded with " + loadedDeck.totalCards + " cards and " + reports.Count + " reports");
-        foreach(CardReported report in reports)
+        PokemonDeck loadedDeck = PokemonLoader.LoadDeck(decklist.text);
+        tempFormat.CheckDeckInFormat(loadedDeck);
+        Debug.Log("Deck loaded with " + loadedDeck.totalCards + " cards");
+        foreach(CardInDeck cid in loadedDeck.deckCards)
         {
-            if(report.start == null)
+            if(cid.reference == null)
             {
                 continue;
             }
@@ -39,8 +40,8 @@ public class DeckListValidator : MonoBehaviour
             ReportedPokemonCard rpc = createdCard.GetComponent<ReportedPokemonCard>();
             createdCard.transform.SetParent(cardRoot);
             
-            rpc.Configure(report);
-        }*/
+            rpc.Configure(cid);
+        }
         topLevelUI.SetActive(true);
     }
 }

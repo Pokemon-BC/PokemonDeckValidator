@@ -61,7 +61,9 @@ public abstract class PokemonFormat
         for (int i = 0, count = deck.deckCards.Count; i < count; i++)
         {
             CardInDeck cid = deck.deckCards[i];
-            if (cid.reference.Supertype != CardSupertype.ENERGY || Array.Exists(cid.reference.Subtypes, (e) => e == CardSubtype.BASIC))
+            Debug.Log("Cid reference " + cid.reference.Name);
+            if (cid.reference.Supertype != CardSupertype.UNKNOWN && 
+               (cid.reference.Supertype != CardSupertype.ENERGY || Array.Exists(cid.reference.Subtypes, (e) => e == CardSubtype.BASIC)))
             {
                 string name = cid.reference.Name;
                 if (cardCounts.ContainsKey(name))
@@ -72,7 +74,7 @@ public abstract class PokemonFormat
                 {
                     cardCounts.Add(name, cid.quantity);
                 }
-                if (cardCounts[name] >= 4)
+                if (cardCounts[name] > 4)
                 {
                     cid.AddNote(NoteType.INVALID, "There are more than 4 cards with this name.");
                 }
@@ -85,38 +87,41 @@ public abstract class PokemonFormat
         for(int i = 0, count = deck.deckCards.Count; i < count; i++)
         {
             CardInDeck cid = deck.deckCards[i];
-            Legalities legal = cid.reference.Legalities;
-            if(RequireUnlimitedLegal)
+            if (cid.reference.Supertype != CardSupertype.UNKNOWN)
             {
-                if(legal.Unlimited == Legality.BANNED)
+                Legalities legal = cid.reference.Legalities;
+                if (RequireUnlimitedLegal)
                 {
-                    cid.AddNote(NoteType.INVALID, "This card is Banned in the Unlimited format.");
+                    if (legal.Unlimited == Legality.BANNED)
+                    {
+                        cid.AddNote(NoteType.INVALID, "This card is Banned in the Unlimited format.");
+                    }
+                    else if (!legal.IsUnlimitedLegal)
+                    {
+                        cid.AddNote(NoteType.INVALID, "This card is not Legal in the Unlimited format.");
+                    }
                 }
-                else if (!legal.IsUnlimitedLegal)
+                if (RequireExpandedLegal)
                 {
-                    cid.AddNote(NoteType.INVALID, "This card is not Legal in the Unlimited format.");
+                    if (legal.Expanded == Legality.BANNED)
+                    {
+                        cid.AddNote(NoteType.INVALID, "This card is Banned in the Expanded format.");
+                    }
+                    else if (!legal.IsExpandedLegal)
+                    {
+                        cid.AddNote(NoteType.INVALID, "This card is not Legal in the Expanded format.");
+                    }
                 }
-            }
-            if(RequireExpandedLegal)
-            {
-                if (legal.Expanded == Legality.BANNED)
+                if (RequireStandardLegal)
                 {
-                    cid.AddNote(NoteType.INVALID, "This card is Banned in the Expanded format.");
-                }
-                else if (!legal.IsExpandedLegal)
-                {
-                    cid.AddNote(NoteType.INVALID, "This card is not Legal in the Expanded format.");
-                }
-            }
-            if (RequireStandardLegal)
-            {
-                if (legal.Standard == Legality.BANNED)
-                {
-                    cid.AddNote(NoteType.INVALID, "This card is Banned in the Standard format.");
-                }
-                else if (!legal.IsStandardLegal)
-                {
-                    cid.AddNote(NoteType.INVALID, "This card is not Legal in the Standard format.");
+                    if (legal.Standard == Legality.BANNED)
+                    {
+                        cid.AddNote(NoteType.INVALID, "This card is Banned in the Standard format.");
+                    }
+                    else if (!legal.IsStandardLegal)
+                    {
+                        cid.AddNote(NoteType.INVALID, "This card is not Legal in the Standard format.");
+                    }
                 }
             }
         }

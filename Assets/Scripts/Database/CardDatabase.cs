@@ -68,7 +68,7 @@ namespace PKMN
                         PokemonCard cardRef = CardDatabase.LookupCard(setId, collId);
                         if(cardRef == null)
                         {
-                            PokemonCard.GenerateErrorCard(name, setId, collId);
+                            cardRef = PokemonCard.GenerateErrorCard(name, setId, collId);
                         }
                         result.deckCards.Add(new CardInDeck(cardRef, setId, quantity));
                     }

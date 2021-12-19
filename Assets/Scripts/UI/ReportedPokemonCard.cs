@@ -14,9 +14,9 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
     public Text tempName;
     public Image icon;
 
-    //private CardReported source;
+    private CardInDeck source;
     private string image;
-    private List<string> issues;
+    private List<FormatedNote> issues;
     private ReportedCardInfo rci;
     private bool mouseIn = false;
 
@@ -27,22 +27,22 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
     public GameObject textPrefab;
 
     //image, report.start.quantity, status
-    /*public void Configure(CardReported rpc)
+    public void Configure(CardInDeck rpc)
     {
         source = rpc;
         int status;
         image = "";
-        if (rpc.start.reference.Supertype == PKMN.Cards.CardSupertype.POKEMON)
+        if (rpc.reference.Supertype == CardSupertype.UNKNOWN)
         {
             status = 1;
         }
         else
         {
-            status = rpc.issues.Count == 0 ? 0 : 2;
-            image = rpc.start.reference.Images.Small;
+            status = rpc.notes.Count == 0 ? 0 : 2;
+            image = rpc.reference.Images.Small;
         }
 
-        quantity.text = rpc.start.quantity.ToString();
+        quantity.text = rpc.quantity.ToString();
         if(status == 0)
         {
             icon.color = Color.green;
@@ -55,8 +55,8 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             icon.color = Color.red;
         }
-        issues = rpc.issues;
-    }*/
+        issues = rpc.notes;
+    }
 
     private void Start()
     {
@@ -117,7 +117,8 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
                     newText.transform.SetParent(helpTextRoot);
                     if (newText.TryGetComponent<Text>(out Text actualText))
                     {
-                        actualText.text = issues[i];
+                        actualText.text = issues[i].text;
+                        actualText.color = MapIssueToColor(issues[i].severity);
                     }
                 }
             }
@@ -125,6 +126,21 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
             {
                 helpRoot.transform.position = new Vector3(transform.position.x - 335f, transform.position.y);
             }
+        }
+    }
+
+    private Color MapIssueToColor(NoteType nt)
+    {
+        switch (nt)
+        {
+            case NoteType.NOTE: 
+                return Color.white;
+            case NoteType.ERROR:
+                return Color.yellow;
+            case NoteType.INVALID:
+                return Color.red;
+            default:
+                return Color.red;
         }
     }
 
