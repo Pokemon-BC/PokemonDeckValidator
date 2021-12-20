@@ -114,7 +114,8 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
                 for (int i = 0, count = issues.Count; i < count; i++)
                 {
                     GameObject newText = GameObject.Instantiate(textPrefab);
-                    newText.transform.SetParent(helpTextRoot);
+                    newText.transform.SetParent(helpTextRoot, false);
+                    newText.transform.localScale = Vector3.one;
                     if (newText.TryGetComponent<Text>(out Text actualText))
                     {
                         actualText.text = issues[i].text;
