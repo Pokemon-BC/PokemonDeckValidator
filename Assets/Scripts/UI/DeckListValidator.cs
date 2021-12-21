@@ -9,9 +9,12 @@ public class DeckListValidator : MonoBehaviour
 {
     public Button submitButton;
     public Text decklist;
+    public FormatSelect formatSelect;
     public GameObject topLevelUI;
     public Transform cardRoot;
     public Transform deckNoteRoots;
+
+    public Button backButton;
 
     public GameObject cardPrefab;
     public GameObject notePrefab;
@@ -21,16 +24,16 @@ public class DeckListValidator : MonoBehaviour
     {
         topLevelUI.SetActive(false);
         submitButton.onClick.AddListener(SubmitButton);
+        backButton.onClick.AddListener(BackButton);
     }
 
     private void SubmitButton()
     {
         Debug.Log("Submit button pressed");
-        //UprisingFormat tempFormat = new UprisingFormat();
-        StandardFormat tempFormat = new StandardFormat();
+        PokemonFormat targetFormat = formatSelect.GetSelectedFormat();
         Debug.Log("Text is " + decklist.text);
         PokemonDeck loadedDeck = PokemonLoader.LoadDeck(decklist.text);
-        tempFormat.CheckDeckInFormat(loadedDeck);
+        targetFormat.CheckDeckInFormat(loadedDeck);
         Debug.Log("Deck loaded with " + loadedDeck.totalCards + " cards");
         foreach(CardInDeck cid in loadedDeck.deckCards)
         {
@@ -76,7 +79,7 @@ public class DeckListValidator : MonoBehaviour
         }
         else
         {
-            DisplayDeckNote(new FormatedNote(NoteType.NOTE, "Deck list validated."));
+            DisplayDeckNote(new FormatedNote(NoteType.SUCCESS, "Deck list validated."));
         }
 
         topLevelUI.SetActive(true);
@@ -104,8 +107,26 @@ public class DeckListValidator : MonoBehaviour
                 return Color.yellow;
             case NoteType.INVALID:
                 return Color.red;
+            case NoteType.SUCCESS:
+                return Color.green;
             default:
                 return Color.red;
         }
+    }
+
+    private void BackButton()
+    {
+        for(int i = 0, count = deckNoteRoots.childCount; i < count; i++)
+        {
+            Transform current = deckNoteRoots.GetChild(i);
+            Destroy(current.gameObject);
+        }
+        for(int i = 0, count = cardRoot.childCount; i < count; i++)
+        {
+            Transform current = cardRoot.GetChild(i);
+            Destroy(current.gameObject);
+        }
+        topLevelUI.SetActive(false);
+        decklist.text = "";
     }
 }

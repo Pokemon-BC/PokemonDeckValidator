@@ -40,7 +40,7 @@ namespace PKMN
                         // Quantity Count for card type
                         string[] subsets = line.Split(' ');
                         string identifier = subsets[0];
-                        if (identifier.Contains("Pokémon"))
+                        if (identifier.Contains("PokÃ©mon"))
                         {
                             result.pokemon = int.Parse(subsets[2]);
                         }
@@ -68,7 +68,7 @@ namespace PKMN
                         PokemonCard cardRef = CardDatabase.LookupCard(setId, collId);
                         if(cardRef == null)
                         {
-                            cardRef = PokemonCard.GenerateErrorCard(name, setId, collId);
+                            cardRef = PokemonCard.GenerateErrorCard(name, collId);
                         }
                         result.deckCards.Add(new CardInDeck(cardRef, setId, quantity));
                     }
@@ -156,7 +156,7 @@ namespace PKMN
         {
             public static CardSupertype GetSupertype(string supertype)
             {
-                if (supertype == "Pokémon")
+                if (supertype == "PokÃ©mon")
                 {
                     return CardSupertype.POKEMON;
                 }
@@ -233,8 +233,8 @@ namespace PKMN
                 {"VMAX", CardSubtype.VMAX},
                 // Trainers
                 {"Item", CardSubtype.ITEM},
-                {"Pokémon Tool", CardSubtype.PKMN_TOOL},
-                {"Pokémon Tool F", CardSubtype.PKMN_TOOL_FLARE},
+                {"PokÃ©mon Tool", CardSubtype.PKMN_TOOL},
+                {"PokÃ©mon Tool F", CardSubtype.PKMN_TOOL_FLARE},
                 {"Supporter", CardSubtype.SUPPORTER},
                 {"Stadium", CardSubtype.STADIUM},
                 // Energy
@@ -648,11 +648,11 @@ namespace PKMN
                 return hashCode;
             }
 
-            public static PokemonCard GenerateErrorCard(string name, string set, int id)
+            public static PokemonCard GenerateErrorCard(string name, int id)
             {
                 PokemonCard output = new PokemonCard();
                 output.name = name;
-                output.id = set + "-" + id.ToString();
+                output.id = id.ToString();
                 output.supertype = "";
                 output._supertype = CardSupertype.UNKNOWN;
                 return output;
@@ -877,8 +877,9 @@ namespace PKMN
         {
             // Note is just info for the player.
             // Error means a C# error occured but the deck is not necessarly invalid.
-            // Invalid means the deck is invalid
-            NOTE, ERROR, INVALID
+            // Invalid means the deck is invalid.
+            // Success is used to display a validated deck.
+            NOTE, ERROR, INVALID, SUCCESS
         }
 
         public enum CardSupertype

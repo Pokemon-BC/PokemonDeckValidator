@@ -7,11 +7,11 @@ using PKMN.Cards;
 public abstract class PokemonFormat
 {
     // The number of cards with the same name allowed in a deck
-    public virtual int MaxDuplicates { get => 4; }
+    protected virtual int MaxDuplicates { get => 4; }
 
-    public virtual bool RequireStandardLegal { get => false; }
-    public virtual bool RequireExpandedLegal { get => false; }
-    public virtual bool RequireUnlimitedLegal { get => false; }
+    protected virtual bool RequireStandardLegal { get => false; }
+    protected virtual bool RequireExpandedLegal { get => false; }
+    protected virtual bool RequireUnlimitedLegal { get => false; }
 
     protected virtual List<ShortCard> FormatBanList { get => null; }
 
@@ -56,12 +56,10 @@ public abstract class PokemonFormat
 
     private void CheckQuantityRules(PokemonDeck deck)
     {
-        // TODO idk how this works for like "Professor's Research (Juniper)"
         Dictionary<string, int> cardCounts = new Dictionary<string, int>();
         for (int i = 0, count = deck.deckCards.Count; i < count; i++)
         {
             CardInDeck cid = deck.deckCards[i];
-            Debug.Log("Cid reference " + cid.reference.Name);
             if (cid.reference.Supertype != CardSupertype.UNKNOWN && 
                (cid.reference.Supertype != CardSupertype.ENERGY || Array.Exists(cid.reference.Subtypes, (e) => e == CardSubtype.BASIC)))
             {
@@ -192,7 +190,16 @@ public class ShortCard
 
 public class StandardFormat : PokemonFormat
 {
-    public override bool RequireStandardLegal => true;
+    protected override bool RequireStandardLegal => true;
+    protected override void CustomFormatRules(PokemonDeck deck)
+    {
+        // None
+    }
+}
+
+public class ExpandedFormat : PokemonFormat
+{
+    protected override bool RequireExpandedLegal => true;
     protected override void CustomFormatRules(PokemonDeck deck)
     {
         // None

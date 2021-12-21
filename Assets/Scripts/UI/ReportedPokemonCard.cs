@@ -12,6 +12,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
     public Image cardImage;
     public Text quantity;
     public Text tempName;
+    public Text tempId;
     public Image icon;
 
     private CardInDeck source;
@@ -67,15 +68,16 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         }
         if (image != "" || image == null)
         {
-            Debug.Log("Image not empty, downloading");
             StartCoroutine(DownloadImage(image));
             tempName.gameObject.SetActive(false);
+            tempId.gameObject.SetActive(false);
         }
         else
         {
-            Debug.Log("No image available, skip");
-            //tempName.text = source.start.reference.Name;
+            tempName.text = source.reference.Name;
+            tempId.text = string.Format("{0} {1}", source.setId, source.reference.ID);
             tempName.gameObject.SetActive(true);
+            tempId.gameObject.SetActive(true);
         }
         rci = helpRoot.GetComponent<ReportedCardInfo>();
         rci.controllerReference = this;
@@ -83,7 +85,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private IEnumerator DownloadImage(string MediaUrl)
     {
-        Debug.Log("Downloading image with url " + MediaUrl);
+        //Debug.Log("Downloading image with url " + MediaUrl);
         UnityWebRequest request = UnityWebRequestTexture.GetTexture(MediaUrl);
         yield return request.SendWebRequest();
 
@@ -96,14 +98,13 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         else
         {
             Texture2D cardTexture = DownloadHandlerTexture.GetContent(request);
-            Debug.Log("Downloaded Image with width = " + cardTexture.width + ", height = " + cardTexture.height);
+            //Debug.Log("Downloaded Image with width = " + cardTexture.width + ", height = " + cardTexture.height);
             cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2());
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Pointer Enter");
         mouseIn = true;
         if(issues.Count != 0)
         {
@@ -147,7 +148,6 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("Pointer exit");
         mouseIn = false;
         if(!rci.mouseOver)
         {
