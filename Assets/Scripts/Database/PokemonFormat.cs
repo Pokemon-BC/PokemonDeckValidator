@@ -31,17 +31,17 @@ public abstract class PokemonFormat
 
     private void BaseDeckRules(PokemonDeck deck)
     {
-        if (deck.totalCards != 60)
+        if (deck.TotalCards != 60)
         {
             deck.AddNote(NoteType.INVALID, "Deck Needs 60 Cards");
         }
         bool anyBasic = false;
-        for(int i = 0, count = deck.deckCards.Count; i < count; i++)
+        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
-            CardInDeck card = deck.deckCards[i];
-            if(card.reference.Supertype == CardSupertype.POKEMON)
+            CardInDeck card = deck.DeckCards[i];
+            if(card.Reference.Supertype == CardSupertype.POKEMON)
             {
-                if(Array.Exists(card.reference.Subtypes, (e) => e == CardSubtype.BASIC))
+                if(Array.Exists(card.Reference.Subtypes, (e) => e == CardSubtype.BASIC))
                 {
                     anyBasic = true;
                     break;
@@ -57,20 +57,20 @@ public abstract class PokemonFormat
     private void CheckQuantityRules(PokemonDeck deck)
     {
         Dictionary<string, int> cardCounts = new Dictionary<string, int>();
-        for (int i = 0, count = deck.deckCards.Count; i < count; i++)
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
-            CardInDeck cid = deck.deckCards[i];
-            if (cid.reference.Supertype != CardSupertype.UNKNOWN && 
-               (cid.reference.Supertype != CardSupertype.ENERGY || Array.Exists(cid.reference.Subtypes, (e) => e == CardSubtype.BASIC)))
+            CardInDeck cid = deck.DeckCards[i];
+            if (cid.Reference.Supertype != CardSupertype.UNKNOWN && 
+               (cid.Reference.Supertype != CardSupertype.ENERGY || Array.Exists(cid.Reference.Subtypes, (e) => e == CardSubtype.BASIC)))
             {
-                string name = cid.reference.Name;
+                string name = cid.Reference.Name;
                 if (cardCounts.ContainsKey(name))
                 {
-                    cardCounts[name] += cid.quantity;
+                    cardCounts[name] += cid.Quantity;
                 }
                 else
                 {
-                    cardCounts.Add(name, cid.quantity);
+                    cardCounts.Add(name, cid.Quantity);
                 }
                 if (cardCounts[name] > 4)
                 {
@@ -82,12 +82,12 @@ public abstract class PokemonFormat
 
     private void LegalitiesCheck(PokemonDeck deck)
     {
-        for(int i = 0, count = deck.deckCards.Count; i < count; i++)
+        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
-            CardInDeck cid = deck.deckCards[i];
-            if (cid.reference.Supertype != CardSupertype.UNKNOWN)
+            CardInDeck cid = deck.DeckCards[i];
+            if (cid.Reference.Supertype != CardSupertype.UNKNOWN)
             {
-                Legalities legal = cid.reference.Legalities;
+                Legalities legal = cid.Reference.Legalities;
                 if (RequireUnlimitedLegal)
                 {
                     if (legal.Unlimited == Legality.BANNED)
@@ -135,10 +135,10 @@ public abstract class PokemonFormat
             {
                 longBanlist.Add(banlist[i].GetDetails());
             }
-            for (int i = 0, count = deck.deckCards.Count; i < count; i++)
+            for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
             {
-                CardInDeck cid = deck.deckCards[i];
-                PokemonCard reference = cid.reference;
+                CardInDeck cid = deck.DeckCards[i];
+                PokemonCard reference = cid.Reference;
                 if(longBanlist.Exists((e) => e.IsReprintOf(reference)))
                 {
                     cid.AddNote(NoteType.INVALID, "This card is banned in this format.");
@@ -150,10 +150,12 @@ public abstract class PokemonFormat
     protected abstract void CustomFormatRules(PokemonDeck deck);
 }
 
-public class ShortCard
+public class ShortCard : IEquatable<ShortCard>
 {
-    public string setCode;
-    public int collectorsId;
+    private string setCode;
+    public string SetCode { get => setCode; }
+    private int collectorsId;
+    public int CollectorsId { get => collectorsId; }
 
     public ShortCard(string setCode, int collectorsId)
     {
@@ -168,17 +170,23 @@ public class ShortCard
 
     public override bool Equals(object obj)
     {
-        return obj is ShortCard card &&
-               setCode == card.setCode &&
+        return obj is ShortCard card && Equals(card);
+    }
+
+    public bool Equals(ShortCard card)
+    {
+        return setCode == card.setCode &&
                collectorsId == card.collectorsId;
     }
 
     public override int GetHashCode()
     {
-        int hashCode = 202626382;
-        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(setCode);
-        hashCode = hashCode * -1521134295 + collectorsId.GetHashCode();
-        return hashCode;
+        return setCode.GetHashCode() * collectorsId.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return string.Format("(ShortCard {0} {1})", setCode, collectorsId);
     }
 }
 

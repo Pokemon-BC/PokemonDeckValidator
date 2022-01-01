@@ -34,10 +34,10 @@ public class DeckListValidator : MonoBehaviour
         Debug.Log("Text is " + decklist.text);
         PokemonDeck loadedDeck = PokemonLoader.LoadDeck(decklist.text);
         targetFormat.CheckDeckInFormat(loadedDeck);
-        Debug.Log("Deck loaded with " + loadedDeck.totalCards + " cards");
-        foreach(CardInDeck cid in loadedDeck.deckCards)
+        Debug.Log("Deck loaded with " + loadedDeck.TotalCards + " cards");
+        foreach(CardInDeck cid in loadedDeck.DeckCards)
         {
-            if(cid.reference == null)
+            if(cid.Reference == null)
             {
                 continue;
             }
@@ -47,23 +47,23 @@ public class DeckListValidator : MonoBehaviour
 
             rpc.Configure(cid);
         }
-        foreach(FormatedNote fn in loadedDeck.deckNotes)
+        foreach(FormatedNote fn in loadedDeck.DeckNotes)
         {
             DisplayDeckNote(fn);
         }
 
         // Final Check
         bool anyInvalidCards = false;
-        for(int i = 0, count = loadedDeck.deckCards.Count; i < count; i++)
+        for(int i = 0, count = loadedDeck.DeckCards.Count; i < count; i++)
         {
-            CardInDeck cid = loadedDeck.deckCards[i];
-            if(cid.notes.Exists((e) => e.severity == NoteType.INVALID))
+            CardInDeck cid = loadedDeck.DeckCards[i];
+            if(cid.Notes.Exists((e) => e.severity == NoteType.INVALID))
             {
                 anyInvalidCards = true;
                 break;
             }
         }
-        bool deckErrors = loadedDeck.deckNotes.Exists((e) => e.severity == NoteType.INVALID);
+        bool deckErrors = loadedDeck.DeckNotes.Exists((e) => e.severity == NoteType.INVALID);
 
         if(anyInvalidCards)
         {

@@ -28,13 +28,13 @@ public class GCNewStart : PokemonFormat
         int numberOfStarters = 0;
         List<CardInDeck> starters = new List<CardInDeck>();
 
-        for(int i = 0, count = deck.deckCards.Count; i < count; i++)
+        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
-            CardInDeck current = deck.deckCards[i];
+            CardInDeck current = deck.DeckCards[i];
             if(IsStarter(current))
             {
                 starters.Add(current);
-                numberOfStarters += current.quantity;
+                numberOfStarters += current.Quantity;
             }
         }
 
@@ -58,7 +58,7 @@ public class GCNewStart : PokemonFormat
 
     private bool IsStarter(CardInDeck cid)
     {
-        if(starters.Exists((e) => cid.reference.Name.Contains(e)))
+        if(starters.Exists((e) => cid.Reference.Name.Contains(e)))
         {
             return true;
         }

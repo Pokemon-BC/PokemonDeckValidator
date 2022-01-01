@@ -33,16 +33,16 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         source = rpc;
         int status;
         image = "";
-        if (rpc.reference.Supertype == CardSupertype.UNKNOWN)
+        if (rpc.Reference.Supertype == CardSupertype.UNKNOWN)
         {
             status = 1;
         }
         else
         {
             status = 0;
-            for(int i = 0, count = rpc.notes.Count; i < count; i++)
+            for(int i = 0, count = rpc.Notes.Count; i < count; i++)
             {
-                FormatedNote current = rpc.notes[i];
+                FormatedNote current = rpc.Notes[i];
                 if(current.severity == NoteType.INVALID)
                 {
                     status = 2;
@@ -50,10 +50,10 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
                     break;
                 }
             }
-            image = rpc.reference.Images.Small;
+            image = rpc.Reference.Images.Small;
         }
 
-        quantity.text = rpc.quantity.ToString();
+        quantity.text = rpc.Quantity.ToString();
         if(status == 0)
         {
             icon.color = Color.green;
@@ -66,7 +66,7 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             icon.color = Color.red;
         }
-        issues = rpc.notes;
+        issues = rpc.Notes;
     }
 
     private void Start()
@@ -76,8 +76,8 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             cardImage = GetComponent<Image>();
         }
-        tempName.text = source.reference.Name;
-        tempId.text = string.Format("{0} {1}", source.setId, source.reference.ID);
+        tempName.text = source.Reference.Name;
+        tempId.text = string.Format("{0} {1}", source.SetId, source.Reference.ID);
         if (image != "" || image == null)
         {
             StartCoroutine(DownloadImage(image));

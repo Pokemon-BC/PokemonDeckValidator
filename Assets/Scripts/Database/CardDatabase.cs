@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using System;
+
 namespace PKMN
 {
     namespace Cards
@@ -39,15 +41,15 @@ namespace PKMN
                         string identifier = subsets[0];
                         if (identifier.Contains("Pokémon"))
                         {
-                            result.pokemon = int.Parse(subsets[2]);
+                            result.Pokemon = int.Parse(subsets[2]);
                         }
                         else if (identifier.Contains("Trainer"))
                         {
-                            result.trainers = int.Parse(subsets[3]);
+                            result.Trainers = int.Parse(subsets[3]);
                         }
                         else if (identifier.Contains("Energy"))
                         {
-                            result.energies = int.Parse(subsets[2]);
+                            result.Energies = int.Parse(subsets[2]);
                         }
                     }
                     else if (line.StartsWith("* "))
@@ -66,13 +68,13 @@ namespace PKMN
                         {
                             cardRef = PokemonCard.GenerateErrorCard(name, collId);
                         }
-                        result.deckCards.Add(new CardInDeck(cardRef, setId, quantity));
+                        result.DeckCards.Add(new CardInDeck(cardRef, setId, quantity));
                     }
                     else if (line.StartsWith("Total Cards -"))
                     {
                         // Final Card Count
                         string[] subsets = line.Split(' ');
-                        result.totalCards = int.Parse(subsets[3]);
+                        result.TotalCards = int.Parse(subsets[3]);
                     }
                 }
                 return result;
@@ -190,11 +192,13 @@ namespace PKMN
 
         public class PokemonDeck
         {
-            public List<CardInDeck> deckCards;
-            public int pokemon, trainers, energies;
-            public int totalCards;
+            protected List<CardInDeck> deckCards;
+            public List<CardInDeck> DeckCards { get => deckCards; }
+            public int Pokemon, Trainers, Energies;
+            public int TotalCards;
 
-            public List<FormatedNote> deckNotes;
+            protected List<FormatedNote> deckNotes;
+            public List<FormatedNote> DeckNotes { get => deckNotes; }
 
             public PokemonDeck()
             {
@@ -208,12 +212,16 @@ namespace PKMN
             }
         }
 
-        public class CardInDeck
+        public class CardInDeck : IEquatable<CardInDeck>
         {
-            public PokemonCard reference;
-            public string setId;
-            public int quantity;
-            public List<FormatedNote> notes;
+            protected PokemonCard reference;
+            public PokemonCard Reference { get => reference; }
+            protected string setId;
+            public string SetId { get => setId; }
+            protected int quantity;
+            public int Quantity { get => quantity; }
+            protected List<FormatedNote> notes;
+            public List<FormatedNote> Notes { get => notes; }
 
             public CardInDeck(PokemonCard pokemonCard, string setId, int quantity)
             {
@@ -226,6 +234,29 @@ namespace PKMN
             public void AddNote(NoteType severity, string message)
             {
                 notes.Add(new FormatedNote(severity, message));
+            }
+
+            public override bool Equals(object obj)
+            {
+                return obj is CardInDeck cid && Equals(cid);
+            }
+
+            public bool Equals(CardInDeck cid)
+            {
+                return reference.Equals(cid.reference) &&
+                       setId.Equals(cid.setId) &&
+                       quantity == cid.quantity &&
+                       CardHelper.ArraySameElements(notes.ToArray(), cid.notes.ToArray());
+            }
+
+            public override int GetHashCode()
+            {
+                return reference.GetHashCode() * setId.GetHashCode() * quantity.GetHashCode();
+            }
+
+            public override string ToString()
+            {
+                return string.Format("(CardInDeck {0}x {1}-{2})", quantity, setId, reference.Number);
             }
         }
 
@@ -249,17 +280,19 @@ namespace PKMN
 
             public override int GetHashCode()
             {
-                int hashCode = -1008784448;
-                hashCode = hashCode * -1521134295 + severity.GetHashCode();
-                hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(text);
-                return hashCode;
+                return severity.GetHashCode() * text.GetHashCode();
+            }
+
+            public override string ToString()
+            {
+                return string.Format("(FormattedNote [{0}] {1}", severity, text);
             }
         }
 
         public enum NoteType
         {
             // Note is just info for the player.
-            // Error means a C# error occured but the deck is not necessarly invalid.
+            // Error means a C# error occured but the deck is not necessarly invalid. (Happens when a card lookup fails.)
             // Invalid means the deck is invalid.
             // Success is used to display a validated deck.
             NOTE, ERROR, INVALID, SUCCESS
