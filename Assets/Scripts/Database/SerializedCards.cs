@@ -166,16 +166,6 @@ namespace PKMN
                 string extractedNumber = Regex.Match(textNumber, @"\d+").Value;
                 return int.Parse(extractedNumber);
             }
-
-            public static int ArrayHashCode<T>(T[] array)
-            {
-                int hashCode = array.Length;
-                for(int i = 0, count = array.Length; i < count; i++)
-                {
-                    hashCode *= array[i].GetHashCode();
-                }
-                return hashCode;
-            }
         }
 
          [System.Serializable]
