@@ -575,6 +575,9 @@ namespace PKMN
             private Legalities legalities;
             public Legalities Legalities { get => legalities; }
             [SerializeField]
+            private string regulationMark;
+            public string RegulationMark { get => regulationMark; }
+            [SerializeField]
             private CardImages images;
             public CardImages Images { get => images; }
 
