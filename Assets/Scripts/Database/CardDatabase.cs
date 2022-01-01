@@ -137,7 +137,7 @@ namespace PKMN
                     }
                     if (collId <= ls.setCards.Count)
                     {
-                        return ls.setCards[collId - 1]; // -1 because arrays
+                        return ls.setCards[collId];
                     }
                     else
                     {
@@ -173,7 +173,7 @@ namespace PKMN
                     return CardSupertype.UNKNOWN;
                 }
             }
-            
+
             private static Dictionary<string, PokemonType> typeMapping = new Dictionary<string, PokemonType>(){
                 {"Grass", PokemonType.GRASS },
                 {"Fire", PokemonType.FIRE},
@@ -187,6 +187,7 @@ namespace PKMN
                 {"Colorless", PokemonType.COLORLESS},
                 {"Dragon", PokemonType.DRAGON}
             };
+
             public static PokemonType[] GetTypes(string[] types)
             {
                 PokemonType[] result = new PokemonType[types.Length];
@@ -318,6 +319,11 @@ namespace PKMN
                 ptcgoId = ptcgo;
                 setData = data;
                 setCards = new List<PokemonCard>(cards);
+                for(int i = 0, count = cards.Length; i < count; i++)
+                {
+                    PokemonCard current = cards[i];
+                    setCards.Insert(current.Number, current);
+                }
             }
 
             public override bool Equals(object obj)

@@ -39,7 +39,17 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         }
         else
         {
-            status = rpc.notes.Count == 0 ? 0 : 2;
+            status = 0;
+            for(int i = 0, count = rpc.notes.Count; i < count; i++)
+            {
+                FormatedNote current = rpc.notes[i];
+                if(current.severity == NoteType.INVALID)
+                {
+                    status = 2;
+                    // Once one is invalid it doesn't matter if more are.
+                    break;
+                }
+            }
             image = rpc.reference.Images.Small;
         }
 
