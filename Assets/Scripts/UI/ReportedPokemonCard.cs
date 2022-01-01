@@ -76,6 +76,8 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         {
             cardImage = GetComponent<Image>();
         }
+        tempName.text = source.reference.Name;
+        tempId.text = string.Format("{0} {1}", source.setId, source.reference.ID);
         if (image != "" || image == null)
         {
             StartCoroutine(DownloadImage(image));
@@ -84,8 +86,6 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         }
         else
         {
-            tempName.text = source.reference.Name;
-            tempId.text = string.Format("{0} {1}", source.setId, source.reference.ID);
             tempName.gameObject.SetActive(true);
             tempId.gameObject.SetActive(true);
         }
@@ -93,22 +93,19 @@ public class ReportedPokemonCard : MonoBehaviour, IPointerEnterHandler, IPointer
         rci.controllerReference = this;
     }
 
-    private IEnumerator DownloadImage(string MediaUrl)
+    private IEnumerator DownloadImage(string mediaUrl)
     {
-        //Debug.Log("Downloading image with url " + MediaUrl);
-        UnityWebRequest request = UnityWebRequestTexture.GetTexture(MediaUrl);
+        UnityWebRequest request = UnityWebRequestTexture.GetTexture(mediaUrl);
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.DataProcessingError)
         {
             Debug.Log(request.error);
-            //tempName.text = source.start.reference.Name;
             tempName.gameObject.SetActive(true);
         }
         else
         {
             Texture2D cardTexture = DownloadHandlerTexture.GetContent(request);
-            //Debug.Log("Downloaded Image with width = " + cardTexture.width + ", height = " + cardTexture.height);
             cardImage.sprite = Sprite.Create(cardTexture, new Rect(0, 0, cardTexture.width, cardTexture.height), new Vector2());
         }
     }

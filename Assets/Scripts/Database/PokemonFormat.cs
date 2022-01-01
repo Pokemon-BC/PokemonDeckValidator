@@ -130,11 +130,16 @@ public abstract class PokemonFormat
         List<ShortCard> banlist = FormatBanList;
         if(banlist != null)
         {
+            List<PokemonCard> longBanlist = new List<PokemonCard>();
+            for(int i = 0, count = banlist.Count; i < count; i++)
+            {
+                longBanlist.Add(banlist[i].GetDetails());
+            }
             for (int i = 0, count = deck.deckCards.Count; i < count; i++)
             {
                 CardInDeck cid = deck.deckCards[i];
-                ShortCard testCard = ShortCard.TestCard(cid.setId, cid.reference.Number);
-                if(banlist.Contains(testCard))
+                PokemonCard reference = cid.reference;
+                if(longBanlist.Exists((e) => e.IsReprintOf(reference)))
                 {
                     cid.AddNote(NoteType.INVALID, "This card is banned in this format.");
                 }
@@ -156,6 +161,11 @@ public class ShortCard
         this.collectorsId = collectorsId;
     }
 
+    public PokemonCard GetDetails()
+    {
+        return CardDatabase.LookupCard(setCode, collectorsId);
+    }
+
     public override bool Equals(object obj)
     {
         return obj is ShortCard card &&
@@ -169,22 +179,6 @@ public class ShortCard
         hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(setCode);
         hashCode = hashCode * -1521134295 + collectorsId.GetHashCode();
         return hashCode;
-    }
-
-    private static ShortCard _testCard;
-    public static ShortCard TestCard(string set, int collId)
-    {
-        if (_testCard == null)
-        {
-            _testCard = new ShortCard(set, collId);
-            return _testCard;
-        }
-        else
-        {
-            _testCard.setCode = set;
-            _testCard.collectorsId = collId;
-            return _testCard;
-        }
     }
 }
 

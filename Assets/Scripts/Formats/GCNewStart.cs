@@ -7,12 +7,10 @@ using PKMN.Cards;
 public class GCNewStart : PokemonFormat
 {
     protected override bool RequireExpandedLegal => true;
-    private List<ShortCard> banList = new List<ShortCard>(){
+    private List<ShortCard> banList = new List<ShortCard>()
+    {
         new ShortCard("SSH", 58), // Inteleon (Shady Dealings)
-        // SHF SV027 Inteleon Shiny Vault
-        new ShortCard("CRE", 43),
-        new ShortCard("EVS", 227),
-        new ShortCard("PR-SW", 113)
+        new ShortCard("CRE", 43) // Inteleon (Quick Shooting)
     };
     protected override List<ShortCard> FormatBanList { get => banList; }
 
