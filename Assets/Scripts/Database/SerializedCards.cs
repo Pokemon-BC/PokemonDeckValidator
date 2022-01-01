@@ -610,7 +610,10 @@ namespace PKMN
             private string text;
             public string Text { get => text; }
 
-            
+            public override bool Equals(object obj)
+            {
+                return obj is PokemonAttack attack && Equals(attack);
+            }
 
             public bool Equals(PokemonAttack attack)
             {
@@ -619,11 +622,6 @@ namespace PKMN
                        convertedEnergyCost == attack.convertedEnergyCost &&
                        damage == attack.damage &&
                        text == attack.text;
-            }
-
-            public override bool Equals(object obj)
-            {
-                return obj is PokemonAttack attack && Equals(attack);
             }
 
             public override int GetHashCode()

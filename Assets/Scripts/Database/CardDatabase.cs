@@ -185,7 +185,6 @@ namespace PKMN
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ptcgoId);
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(setId);
                 hashCode = hashCode * -1521134295 + EqualityComparer<PokemonSet>.Default.GetHashCode(setData);
-                hashCode = hashCode * -1521134295 + EqualityComparer<List<PokemonCard>>.Default.GetHashCode(setCards);
                 return hashCode;
             }
         }
