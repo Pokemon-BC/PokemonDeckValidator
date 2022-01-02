@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System;
+
 using PKMN.Cards;
 
 public class GCNewStart : PokemonFormat
@@ -27,14 +29,45 @@ public class GCNewStart : PokemonFormat
     {
         int numberOfStarters = 0;
         List<CardInDeck> starters = new List<CardInDeck>();
+        Dictionary<string, int> vunionCount = new Dictionary<string, int>();
+        List<CardInDeck> vUnions = new List<CardInDeck>();
 
         for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck current = deck.DeckCards[i];
             if(IsStarter(current))
             {
-                starters.Add(current);
-                numberOfStarters += current.Quantity;
+                if(Array.Exists(current.Reference.Subtypes, (e) => e == CardSubtype.V_UNION))
+                {
+                    vUnions.Add(current);
+                    if(vunionCount.ContainsKey(current.Reference.Name))
+                    {
+                        vunionCount[current.Reference.Name]++;
+                    }
+                    else
+                    {
+                        vunionCount.Add(current.Reference.Name, 1);
+                    }
+
+                    if(vunionCount[current.Reference.Name] == 4)
+                    {
+                        numberOfStarters++;
+                        for(int j = 0, vunionCnt = vUnions.Count; j < vunionCnt; j++)
+                        {
+                            CardInDeck vUnionNow = vUnions[j];
+                            if(vUnionNow.Reference.Name == current.Reference.Name)
+                            {
+                                starters.Add(vUnionNow);
+                                vUnionNow.AddNote(NoteType.NOTE, "V-Union Pokemon only count as 1 starter.");
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    starters.Add(current);
+                    numberOfStarters += current.Quantity;
+                }
             }
         }
 

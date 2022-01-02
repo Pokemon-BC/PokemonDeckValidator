@@ -310,7 +310,7 @@ namespace PKMN
         public enum CardSubtype
         {
             // Pokemon
-            UNKNOWN, STAGE_1, STAGE_2, EX, MEGA, BREAK, RESTORED, GX, V, VMAX,
+            UNKNOWN, STAGE_1, STAGE_2, EX, MEGA, BREAK, RESTORED, GX, V, VMAX, V_UNION,
             // Trainers
             ITEM, PKMN_TOOL, PKMN_TOOL_FLARE, SUPPORTER, STADIUM,
             // Energy

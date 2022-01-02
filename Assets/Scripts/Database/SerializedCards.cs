@@ -88,6 +88,7 @@ namespace PKMN
                 {"TAG TEAM", CardSubtype.TAG_TEAM},
                 {"V", CardSubtype.V},
                 {"VMAX", CardSubtype.VMAX},
+                {"V-UNION", CardSubtype.V_UNION},
                 // Trainers
                 {"Item", CardSubtype.ITEM},
                 {"Pokémon Tool", CardSubtype.PKMN_TOOL},
