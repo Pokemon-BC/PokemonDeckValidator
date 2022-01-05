@@ -154,10 +154,10 @@ public class ShortCard : IEquatable<ShortCard>
 {
     private string setCode;
     public string SetCode { get => setCode; }
-    private int collectorsId;
-    public int CollectorsId { get => collectorsId; }
+    private string collectorsId;
+    public string CollectorsId { get => collectorsId; }
 
-    public ShortCard(string setCode, int collectorsId)
+    public ShortCard(string setCode, string collectorsId)
     {
         this.setCode = setCode;
         this.collectorsId = collectorsId;

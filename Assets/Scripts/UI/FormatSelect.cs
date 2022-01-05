@@ -11,6 +11,7 @@ public class FormatSelect : MonoBehaviour
     public static Dictionary<string, PokemonFormat> formats = new Dictionary<string, PokemonFormat>()
     {
         {"GC: New Start", new GCNewStart()},
+        {"TJ: Gym Leader Challenge", new TrickyGymGLC()},
         {"Standard", new StandardFormat()},
         {"Expanded", new ExpandedFormat()}
     };

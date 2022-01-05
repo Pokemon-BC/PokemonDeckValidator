@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 using System;
 
@@ -11,8 +9,8 @@ public class GCNewStart : PokemonFormat
     protected override bool RequireExpandedLegal => true;
     private List<ShortCard> banList = new List<ShortCard>()
     {
-        new ShortCard("SSH", 58), // Inteleon (Shady Dealings)
-        new ShortCard("CRE", 43) // Inteleon (Quick Shooting)
+        new ShortCard("SSH", "58"), // Inteleon (Shady Dealings)
+        new ShortCard("CRE", "43") // Inteleon (Quick Shooting)
     };
     protected override List<ShortCard> FormatBanList { get => banList; }
 

@@ -414,7 +414,7 @@ namespace PKMN
             public int ConvertedRetreatCost { get => convertedRetreatCost; }
             [SerializeField]
             private string number;
-            public int Number { get => CardHelper.ExtractNumber(number); }
+            public string Number { get => number; }
             [SerializeField]
             private string artist;
             public string Artist { get => artist; }
@@ -496,7 +496,7 @@ namespace PKMN
                 return JsonUtility.ToJson(this);
             }
 
-            public static PokemonCard GenerateErrorCard(string name, int id)
+            public static PokemonCard GenerateErrorCard(string name, string id)
             {
                 PokemonCard output = new PokemonCard();
                 output.name = name;

@@ -56,13 +56,14 @@ namespace PKMN
                     {
                         string[] subsets = line.Split(' ');
                         int quantity = int.Parse(subsets[1]);
-                        int collId = int.Parse(subsets[subsets.Length - 1]);
+                        string collId = subsets[subsets.Length - 1];
                         string setId = subsets[subsets.Length - 2];
                         string name = "";
                         for (int subi = 2, subcount = subsets.Length - 2; subi < subcount; subi++)
                         {
                             name += " " + subsets[subi];
                         }
+                        Debug.Log("Looking up card in set " + setId + " with collID " + collId);
                         PokemonCard cardRef = CardDatabase.LookupCard(setId, collId);
                         if(cardRef == null)
                         {
@@ -117,14 +118,16 @@ namespace PKMN
                 }
             }
 
-            public static PokemonCard LookupCard(string ptcgoId, int collId)
+            public static PokemonCard LookupCard(string ptcgoId, string collId)
             {
                 if (!initialized) Init();
                 if (tcgoIdToSet.TryGetValue(ptcgoId, out PokemonSet pokemonSet))
                 {
                     LoadedSet ls;
+                    Debug.Log("Looking up card in set " + ptcgoId + " with coll id " + collId);
                     if (internalIdToSet.ContainsKey(pokemonSet.ID))
                     {
+                        Debug.Log("Key exists");
                         ls = internalIdToSet[pokemonSet.ID];
                     }
                     else
@@ -133,7 +136,7 @@ namespace PKMN
                         internalIdToSet.Add(pokemonSet.ID, new LoadedSet(pokemonSet.ID, ptcgoId, pokemonSet, cards));
                         ls = internalIdToSet[pokemonSet.ID];
                     }
-                    if (collId <= ls.setCards.Count)
+                    if (ls.setCards.ContainsKey(collId))
                     {
                         return ls.setCards[collId];
                     }
@@ -155,18 +158,25 @@ namespace PKMN
             public string ptcgoId;
             public string setId;
             public PokemonSet setData;
-            public List<PokemonCard> setCards;
+            public Dictionary<string, PokemonCard> setCards;
 
             public LoadedSet(string id, string ptcgo, PokemonSet data, PokemonCard[] cards)
             {
                 setId = id;
                 ptcgoId = ptcgo;
                 setData = data;
-                setCards = new List<PokemonCard>(cards);
+                setCards = new Dictionary<string, PokemonCard>();
                 for(int i = 0, count = cards.Length; i < count; i++)
                 {
                     PokemonCard current = cards[i];
-                    setCards.Insert(current.Number, current);
+                    if(setCards.ContainsKey(current.Number))
+                    {
+                        Debug.LogWarning("Conflict between cards " + setCards[current.Number].ToString() + " and \n " + current.ToString());
+                    }
+                    else
+                    {
+                        setCards.Add(current.Number, current);
+                    }
                 }
             }
 
@@ -176,7 +186,7 @@ namespace PKMN
                        ptcgoId == set.ptcgoId &&
                        setId == set.setId &&
                        EqualityComparer<PokemonSet>.Default.Equals(setData, set.setData) &&
-                       EqualityComparer<List<PokemonCard>>.Default.Equals(setCards, set.setCards);
+                       EqualityComparer<Dictionary<string, PokemonCard>>.Default.Equals(setCards, set.setCards);
             }
 
             public override int GetHashCode()
