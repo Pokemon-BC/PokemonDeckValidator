@@ -1,6 +1,0 @@
-[submodule "Assets/pokemon-tcg-data"]
-	path = Assets/pokemon-tcg-data
-	url = https://github.com/PokemonTCG/pokemon-tcg-data.git
-[submodule "Assets/Resources/pokemon-tcg-data"]
-	path = Assets/Resources/pokemon-tcg-data
-	url = https://github.com/PokemonTCG/pokemon-tcg-data.git
