@@ -56,14 +56,15 @@ namespace PKMN
                     {
                         string[] subsets = line.Split(' ');
                         int quantity = int.Parse(subsets[1]);
-                        string collId = subsets[subsets.Length - 1];
-                        string setId = subsets[subsets.Length - 2];
+                        string collIdRaw = subsets[subsets.Length - 1];
+                        string collId = SanetizeString(collIdRaw);
+                        string setIdRaw = subsets[subsets.Length - 2];
+                        string setId = SanetizeString(setIdRaw);
                         string name = "";
                         for (int subi = 2, subcount = subsets.Length - 2; subi < subcount; subi++)
                         {
                             name += " " + subsets[subi];
                         }
-                        Debug.Log("Looking up card in set " + setId + " with collID " + collId);
                         PokemonCard cardRef = CardDatabase.LookupCard(setId, collId);
                         if(cardRef == null)
                         {
@@ -79,6 +80,21 @@ namespace PKMN
                     }
                 }
                 return result;
+            }
+
+            private static string SanetizeString(string raw)
+            {
+                //string collId = new string(collIdRaw.Where(c => !char.IsControl(c)).ToArray());
+                List<char> newString = new List<char>();
+                for(int i = 0, count = raw.Length; i < count; i++)
+                {
+                    char current = raw[i];
+                    if(!char.IsControl(current))
+                    {
+                        newString.Add(current);
+                    }
+                }
+                return new string(newString.ToArray());
             }
         }
 
@@ -108,7 +124,7 @@ namespace PKMN
                     {
                         if (tcgoIdToSet.ContainsKey(key))
                         {
-                            Debug.Log("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
+                            Debug.LogWarning("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
                         }
                         else
                         {
@@ -124,10 +140,8 @@ namespace PKMN
                 if (tcgoIdToSet.TryGetValue(ptcgoId, out PokemonSet pokemonSet))
                 {
                     LoadedSet ls;
-                    Debug.Log("Looking up card in set " + ptcgoId + " with coll id " + collId);
                     if (internalIdToSet.ContainsKey(pokemonSet.ID))
                     {
-                        Debug.Log("Key exists");
                         ls = internalIdToSet[pokemonSet.ID];
                     }
                     else
@@ -136,9 +150,9 @@ namespace PKMN
                         internalIdToSet.Add(pokemonSet.ID, new LoadedSet(pokemonSet.ID, ptcgoId, pokemonSet, cards));
                         ls = internalIdToSet[pokemonSet.ID];
                     }
-                    if (ls.setCards.ContainsKey(collId))
+                    if(ls.setCards.TryGetValue(collId, out PokemonCard found))
                     {
-                        return ls.setCards[collId];
+                        return found;
                     }
                     else
                     {
@@ -147,7 +161,7 @@ namespace PKMN
                 }
                 else
                 {
-                    Debug.Log("Card from problematic set " + ptcgoId + " with col ID " + collId);
+                    Debug.LogWarning("Card from problematic set " + ptcgoId + " with col ID " + collId);
                     return null;
                 }
             }
