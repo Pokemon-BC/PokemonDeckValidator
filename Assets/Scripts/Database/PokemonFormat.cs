@@ -56,6 +56,7 @@ public abstract class PokemonFormat
 
     private void CheckQuantityRules(PokemonDeck deck)
     {
+        int maxCopies = MaxDuplicates;
         Dictionary<string, int> cardCounts = new Dictionary<string, int>();
         for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
@@ -72,9 +73,9 @@ public abstract class PokemonFormat
                 {
                     cardCounts.Add(name, cid.Quantity);
                 }
-                if (cardCounts[name] > 4)
+                if (cardCounts[name] > maxCopies)
                 {
-                    cid.AddNote(NoteType.INVALID, "There are more than 4 cards with this name.");
+                    cid.AddNote(NoteType.INVALID, "There are more than " + maxCopies + " cards with this name.");
                 }
             }   
         }
