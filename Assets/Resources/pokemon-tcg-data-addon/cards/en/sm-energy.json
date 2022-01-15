@@ -1,0 +1,346 @@
+[
+  {
+    "id": "sm-energy-1",
+    "name": "Grass Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "1",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/132.png",
+      "large": "https://images.pokemontcg.io/xy1/132_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-2",
+    "name": "Fire Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "2",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/133.png",
+      "large": "https://images.pokemontcg.io/xy1/133_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-3",
+    "name": "Water Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "3",
+    "artist": "5ban Graphics",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/134.png",
+      "large": "https://images.pokemontcg.io/xy1/134_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-4",
+    "name": "Lightning Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "4",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/135.png",
+      "large": "https://images.pokemontcg.io/xy1/135_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-5",
+    "name": "Psychic Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "5",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/136.png",
+      "large": "https://images.pokemontcg.io/xy1/136_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-6",
+    "name": "Fighting Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "6",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/137.png",
+      "large": "https://images.pokemontcg.io/xy1/137_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-7",
+    "name": "Darkness Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "7",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/138.png",
+      "large": "https://images.pokemontcg.io/xy1/138_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-8",
+    "name": "Metal Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "8",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/139.png",
+      "large": "https://images.pokemontcg.io/xy1/139_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-9",
+    "name": "Fairy Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "9",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/140.png",
+      "large": "https://images.pokemontcg.io/xy1/140_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-10",
+    "name": "Grass Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "10",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/132.png",
+      "large": "https://images.pokemontcg.io/xy1/132_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-11",
+    "name": "Fire Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "11",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/133.png",
+      "large": "https://images.pokemontcg.io/xy1/133_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-12",
+    "name": "Water Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "12",
+    "artist": "5ban Graphics",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/134.png",
+      "large": "https://images.pokemontcg.io/xy1/134_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-13",
+    "name": "Lightning Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "13",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/135.png",
+      "large": "https://images.pokemontcg.io/xy1/135_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-14",
+    "name": "Psychic Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "14",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/136.png",
+      "large": "https://images.pokemontcg.io/xy1/136_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-15",
+    "name": "Fighting Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "15",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/137.png",
+      "large": "https://images.pokemontcg.io/xy1/137_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-16",
+    "name": "Darkness Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "16",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/138.png",
+      "large": "https://images.pokemontcg.io/xy1/138_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-17",
+    "name": "Metal Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "17",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/139.png",
+      "large": "https://images.pokemontcg.io/xy1/139_hires.png"
+    }
+  },
+  {
+    "id": "sm-energy-18",
+    "name": "Fairy Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "18",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/140.png",
+      "large": "https://images.pokemontcg.io/xy1/140_hires.png"
+    }
+  }
+]

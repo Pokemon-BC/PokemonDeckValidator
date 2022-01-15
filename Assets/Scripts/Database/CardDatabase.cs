@@ -15,9 +15,21 @@ namespace PKMN
                 return JSonUtils.FromJson<PokemonSet>(JSonUtils.FixJson(setJson.text));
             }
 
+            public static PokemonSet[] LoadAddonSets()
+            {
+                TextAsset addonSetJson = Resources.Load<TextAsset>("pokemon-tcg-data-addon/sets/en");
+                return JSonUtils.FromJson<PokemonSet>(JSonUtils.FixJson(addonSetJson.text));
+            }
+
             public static PokemonCard[] LoadCardsInSet(string setId)
             {
                 TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data/cards/en/" + setId);
+                return JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
+            }
+
+            public static PokemonCard[] LoadCardsInAddonSet(string setId)
+            {
+                TextAsset setJson = Resources.Load<TextAsset>("pokemon-tcg-data-addon/cards/en/" + setId);
                 return JSonUtils.FromJson<PokemonCard>(JSonUtils.FixJson(setJson.text));
             }
 
@@ -146,6 +158,9 @@ namespace PKMN
                         }
                     }
                 }
+
+                // Unlike the normal sets where we don't want to load everything unless we need it, the addon sets can all be loaded immediately.
+                LoadAddonSets();
             }
 
             public static PokemonCard LookupCard(string ptcgoId, string collId)
@@ -185,6 +200,34 @@ namespace PKMN
                 {
                     Debug.LogWarning("Card from problematic set " + ptcgoId + " with col ID " + collId);
                     return null;
+                }
+            }
+
+            public static void LoadAddonSets()
+            {
+                PokemonSet[] addonSets = PokemonLoader.LoadAddonSets();
+                for (int i = 0, count = addonSets.Length; i < count; i++)
+                {
+                    PokemonSet current = addonSets[i];
+                    string key = current.PtcgoCode;
+                    if (current.PtcgoCode == null)
+                    {
+                        key = current.ID;
+                    }
+                    if (current.Legalities.IsStandardLegal || current.Legalities.IsExpandedLegal)
+                    {
+                        if (tcgoIdToSet.ContainsKey(key))
+                        {
+                            Debug.LogWarning("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
+                        }
+                        else
+                        {
+                            tcgoIdToSet.Add(key, current);
+                        }
+                    }
+
+                    PokemonCard[] cards = PokemonLoader.LoadCardsInAddonSet(current.ID);
+                    internalIdToSet.Add(current.ID, new LoadedSet(current.ID, current.PtcgoCode, current, cards));
                 }
             }
         }

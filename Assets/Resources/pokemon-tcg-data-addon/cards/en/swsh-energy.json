@@ -1,0 +1,174 @@
+[
+  {
+    "id": "swsh-energy-1",
+    "name": "Grass Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "1",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/bw1/105.png",
+      "large": "https://images.pokemontcg.io/bw1/105_hires.png"
+    }
+  },
+  {
+    "id": "swsh-energy-2",
+    "name": "Fire Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "2",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/bw1/106.png",
+      "large": "https://images.pokemontcg.io/bw1/106_hires.png"
+    }
+  },
+  {
+    "id": "swsh-energy-3",
+    "name": "Water Energy",
+    "supertype": "Energy",
+    "subtypes": [
+        "Basic"
+      ],
+      "number": "3",
+      "artist": "5ban Graphics",
+      "rarity": "Common",
+      "legalities": {
+        "unlimited": "Legal",
+        "standard": "Legal",
+        "expanded": "Legal"
+      },
+      "images": {
+        "small": "https://images.pokemontcg.io/bw1/107.png",
+        "large": "https://images.pokemontcg.io/bw1/107_hires.png"
+      }
+  },
+  {
+    "id": "swsh-energy-4",
+    "name": "Lightning Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "4",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/bw1/108.png",
+      "large": "https://images.pokemontcg.io/bw1/108_hires.png"
+    }
+  },
+  {
+    "id": "swsh-energy-5",
+    "name": "Psychic Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "5",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/bw1/109.png",
+      "large": "https://images.pokemontcg.io/bw1/109_hires.png"
+    }
+  },
+  {
+    "id": "swsh-energy-6",
+    "name": "Fighting Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "6",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/bw1/110.png",
+      "large": "https://images.pokemontcg.io/bw1/110_hires.png"
+    }
+  },
+  {
+    "id": "swsh-energy-7",
+    "name": "Darkness Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "7",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/bw1/111.png",
+      "large": "https://images.pokemontcg.io/bw1/111_hires.png"
+    }
+  },
+  {
+    "id": "swsh-energy-8",
+    "name": "Metal Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "8",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/bw1/112.png",
+      "large": "https://images.pokemontcg.io/bw1/112_hires.png"
+    }
+  },
+  {
+    "id": "swsh-energy-9",
+    "name": "Fairy Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "9",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://images.pokemontcg.io/xy1/140.png",
+      "large": "https://images.pokemontcg.io/xy1/140_hires.png"
+    }
+  }
+]

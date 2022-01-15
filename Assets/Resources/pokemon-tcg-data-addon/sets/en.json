@@ -1,0 +1,77 @@
+[
+  {
+    "id": "energy",
+    "name": "Basic Energy",
+    "series": "Default",
+    "printedTotal": 9,
+    "total": 9,
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "ptcgoCode": "Energy",
+    "releaseDate": "2001/01/01",
+    "updatedAt": "2022/01/14 20:06"
+  },
+  {
+    "id": "hs-energy",
+    "name": "Heart Gold & Soul Silver Energy",
+    "series": "HeartGold & SoulSilver",
+    "printedTotal": 9,
+    "total": 9,
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "ptcgoCode": "HSEnergy",
+    "releaseDate": "2010/02/10",
+    "updatedAt": "2022/01/14 20:06"
+  },
+  {
+    "id": "xy-energy",
+    "name": "XY Energy",
+    "series": "XY",
+    "printedTotal": 9,
+    "total": 9,
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "ptcgoCode": "XYEnergy",
+    "releaseDate": "2014/02/05",
+    "updatedAt": "2022/01/14 20:06"
+  },
+  {
+    "id": "sm-energy",
+    "name": "Sun & Moon Energy",
+    "series": "Sun & Moon",
+    "printedTotal": 9,
+    "total": 9,
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "ptcgoCode": "SMEnergy",
+    "releaseDate": "2017/02/03",
+    "updatedAt": "2022/01/14 20:06"
+  },
+  {
+    "id": "swsh-energy",
+    "name": "Sword and Shield Energy",
+    "series": "Sword & Shield",
+    "printedTotal": 9,
+    "total": 9,
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "ptcgoCode": "SWSHEnergy",
+    "releaseDate": "2020/02/07",
+    "updatedAt": "2022/01/14 20:06"
+  }
+]
