@@ -166,6 +166,20 @@ namespace PKMN
             public static PokemonCard LookupCard(string ptcgoId, string collId)
             {
                 if (!initialized) Init();
+                // TCGO Handles promos differently, handled here:
+                if(ptcgoId == "PR-BLW")
+                {
+                    collId = "BW" + collId;
+                }
+                else if(ptcgoId == "PR-SM")
+                {
+                    collId = "SM" + collId;
+                }
+                else if(ptcgoId == "PR-SW")
+                {
+                    collId = "SWSH" + collId;
+                }
+                // End Promo specific code
                 if (tcgoIdToSet.TryGetValue(ptcgoId, out PokemonSet pokemonSet))
                 {
                     LoadedSet ls;
@@ -193,6 +207,7 @@ namespace PKMN
                     }
                     else
                     {
+                        Debug.LogWarning("Card not found, " + ptcgoId + "-" + collId);
                         return null;
                     }
                 }
