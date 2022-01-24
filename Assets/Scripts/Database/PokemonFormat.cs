@@ -61,8 +61,9 @@ public abstract class PokemonFormat
         for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck cid = deck.DeckCards[i];
-            if (cid.Reference.Supertype != CardSupertype.UNKNOWN && 
-               (cid.Reference.Supertype != CardSupertype.ENERGY || Array.Exists(cid.Reference.Subtypes, (e) => e == CardSubtype.BASIC)))
+            Debug.Log("Checking quantity for card " + cid.ToString());
+            if (cid.Reference.Supertype != CardSupertype.UNKNOWN &&
+               (cid.Reference.Supertype != CardSupertype.ENERGY || !Array.Exists(cid.Reference.Subtypes, (e) => e == CardSubtype.BASIC)))
             {
                 string name = cid.Reference.Name;
                 if (cardCounts.ContainsKey(name))
