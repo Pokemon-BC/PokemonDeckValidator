@@ -10,10 +10,11 @@ public class FormatSelect : MonoBehaviour
 
     public static Dictionary<string, PokemonFormat> formats = new Dictionary<string, PokemonFormat>()
     {
-        {"GC: New Start", new GCNewStart()},
+        {"GC: Expanded Limited", new GCExpandedLimited()},
         {"TJ: Gym Leader Challenge", new TrickyGymGLC()},
         {"Standard", new StandardFormat()},
-        {"Expanded", new ExpandedFormat()}
+        {"Expanded", new ExpandedFormat()},
+        {"GC: New Start", new GCNewStart()}
     };
 
     protected List<Dropdown.OptionData> options;
