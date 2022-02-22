@@ -21,6 +21,8 @@ public abstract class PokemonFormat
         BaseDeckRules(deck);
         // Apply Quantity Rules
         CheckQuantityRules(deck);
+        // Apply card specific quantity rules like ACE SPEC and Prism Star
+        CheckSpecialQuantityRules(deck);
         // Legality Rules
         LegalitiesCheck(deck);
         // Ban List
@@ -78,6 +80,56 @@ public abstract class PokemonFormat
                     cid.AddNote(NoteType.INVALID, "There are more than " + maxCopies + " cards with this name.");
                 }
             }   
+        }
+    }
+
+    private void CheckSpecialQuantityRules(PokemonDeck deck)
+    {
+        HashSet<string> prismStars = new HashSet<string>();
+        bool deckHasAceSpec = false;
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
+        {
+            CardInDeck cid = deck.DeckCards[i];
+            if (cid.Reference.Supertype != CardSupertype.UNKNOWN &&
+               (cid.Reference.Supertype != CardSupertype.ENERGY || !Array.Exists(cid.Reference.Subtypes, (e) => e == CardSubtype.BASIC)))
+            {
+                string name = cid.Reference.Name;
+                if(Array.Exists(cid.Reference.Rules, (e) => e.Contains("(Prism Star)")))
+                {
+                    if(cid.Quantity > 1)
+                    {
+                        cid.AddNote(NoteType.INVALID, "You can only have 1 copy of a Prism Star card");
+                    }
+                    else
+                    {
+                        if(prismStars.Contains(name))
+                        {
+                            cid.AddNote(NoteType.INVALID, "You can only have 1 copy of a Prism Star card");
+                        }
+                        else
+                        {
+                            prismStars.Add(name);
+                        }
+                    }
+                }
+                if (Array.Exists(cid.Reference.Rules, (e) => e.Contains("ACE SPEC")))
+                {
+                    if(deckHasAceSpec)
+                    {
+                        deck.AddNote(NoteType.INVALID, "Decks can only have 1 ACE SPEC card.");
+                        cid.AddNote(NoteType.INVALID, "Decks can only have 1 ACE SPEC card.");
+                    }
+                    else
+                    {
+                        deckHasAceSpec = true;
+                        if(cid.Quantity > 1)
+                        {
+                            deck.AddNote(NoteType.INVALID, "Decks can only have 1 ACE SPEC card.");
+                            cid.AddNote(NoteType.INVALID, "Decks can only have 1 ACE SPEC card.");
+                        }
+                    }
+                }
+            }
         }
     }
 
