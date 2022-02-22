@@ -4,7 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>{{{ PRODUCT_NAME }}}</title>
+	<link rel="shortcut icon" href="TemplateData/favicon.ico">
+	<title>Pokemon Deck Validator</title>
 	<style>
 		html,
 		body {
@@ -16,7 +17,7 @@
 			margin: 0;
 		}
 
-		div#gameContainer {
+		div#unity-container {
 			background: transparent !important;
 			position: absolute;
 		}
@@ -41,7 +42,7 @@
 </head>
 
 <body>
-	<div id="gameContainer">
+	<div id="unity-container">
 		<canvas id="unity-canvas" data-pixel-art="{{{ OPTIMIZE_FOR_PIXEL_ART }}}"></canvas>
 		<script src="Build/{{{ LOADER_FILENAME }}}"></script>
 		<script>
