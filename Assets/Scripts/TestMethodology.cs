@@ -15,6 +15,6 @@ public class TestMethodology : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        int j = 0;  
     }
 }
