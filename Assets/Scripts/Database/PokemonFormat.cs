@@ -21,8 +21,6 @@ public abstract class PokemonFormat
         BaseDeckRules(deck);
         // Apply Quantity Rules
         CheckQuantityRules(deck);
-        // Apply card specific quantity rules like ACE SPEC and Prism Star
-        CheckSpecialQuantityRules(deck);
         // Legality Rules
         LegalitiesCheck(deck);
         // Ban List
@@ -38,12 +36,12 @@ public abstract class PokemonFormat
             deck.AddNote(NoteType.INVALID, "Deck Needs 60 Cards");
         }
         bool anyBasic = false;
-        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck card = deck.DeckCards[i];
-            if(card.Reference.Supertype == CardSupertype.POKEMON)
+            if (card.Reference.Supertype == CardSupertype.POKEMON)
             {
-                if(Array.Exists(card.Reference.Subtypes, (e) => e == CardSubtype.BASIC))
+                if (Array.Exists(card.Reference.Subtypes, (e) => e == CardSubtype.BASIC))
                 {
                     anyBasic = true;
                     break;
@@ -60,6 +58,10 @@ public abstract class PokemonFormat
     {
         int maxCopies = MaxDuplicates;
         Dictionary<string, int> cardCounts = new Dictionary<string, int>();
+
+        HashSet<string> prismStars = new HashSet<string>();
+        bool deckHasAceSpec = false;
+
         for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck cid = deck.DeckCards[i];
@@ -79,30 +81,15 @@ public abstract class PokemonFormat
                 {
                     cid.AddNote(NoteType.INVALID, "There are more than " + maxCopies + " cards with this name.");
                 }
-            }   
-        }
-    }
-
-    private void CheckSpecialQuantityRules(PokemonDeck deck)
-    {
-        HashSet<string> prismStars = new HashSet<string>();
-        bool deckHasAceSpec = false;
-        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
-        {
-            CardInDeck cid = deck.DeckCards[i];
-            if (cid.Reference.Supertype != CardSupertype.UNKNOWN &&
-               (cid.Reference.Supertype != CardSupertype.ENERGY || !Array.Exists(cid.Reference.Subtypes, (e) => e == CardSubtype.BASIC)))
-            {
-                string name = cid.Reference.Name;
-                if(Array.Exists(cid.Reference.Rules, (e) => e.Contains("(Prism Star)")))
+                if (Array.Exists(cid.Reference.Rules, (e) => e.Contains("(Prism Star)")))
                 {
-                    if(cid.Quantity > 1)
+                    if (cid.Quantity > 1)
                     {
                         cid.AddNote(NoteType.INVALID, "You can only have 1 copy of a Prism Star card");
                     }
                     else
                     {
-                        if(prismStars.Contains(name))
+                        if (prismStars.Contains(name))
                         {
                             cid.AddNote(NoteType.INVALID, "You can only have 1 copy of a Prism Star card");
                         }
@@ -114,7 +101,7 @@ public abstract class PokemonFormat
                 }
                 if (Array.Exists(cid.Reference.Rules, (e) => e.Contains("ACE SPEC")))
                 {
-                    if(deckHasAceSpec)
+                    if (deckHasAceSpec)
                     {
                         deck.AddNote(NoteType.INVALID, "Decks can only have 1 ACE SPEC card.");
                         cid.AddNote(NoteType.INVALID, "Decks can only have 1 ACE SPEC card.");
@@ -122,7 +109,7 @@ public abstract class PokemonFormat
                     else
                     {
                         deckHasAceSpec = true;
-                        if(cid.Quantity > 1)
+                        if (cid.Quantity > 1)
                         {
                             deck.AddNote(NoteType.INVALID, "Decks can only have 1 ACE SPEC card.");
                             cid.AddNote(NoteType.INVALID, "Decks can only have 1 ACE SPEC card.");
@@ -135,7 +122,7 @@ public abstract class PokemonFormat
 
     private void LegalitiesCheck(PokemonDeck deck)
     {
-        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck cid = deck.DeckCards[i];
             if (cid.Reference.Supertype != CardSupertype.UNKNOWN)
@@ -181,10 +168,10 @@ public abstract class PokemonFormat
     private void ApplyBanList(PokemonDeck deck)
     {
         List<ShortCard> banlist = FormatBanList;
-        if(banlist != null)
+        if (banlist != null)
         {
             List<PokemonCard> longBanlist = new List<PokemonCard>();
-            for(int i = 0, count = banlist.Count; i < count; i++)
+            for (int i = 0, count = banlist.Count; i < count; i++)
             {
                 longBanlist.Add(banlist[i].GetDetails());
             }
@@ -192,7 +179,7 @@ public abstract class PokemonFormat
             {
                 CardInDeck cid = deck.DeckCards[i];
                 PokemonCard reference = cid.Reference;
-                if(longBanlist.Exists((e) => e.IsReprintOf(reference)))
+                if (longBanlist.Exists((e) => e.IsReprintOf(reference)))
                 {
                     cid.AddNote(NoteType.INVALID, "This card is banned in this format.");
                 }
