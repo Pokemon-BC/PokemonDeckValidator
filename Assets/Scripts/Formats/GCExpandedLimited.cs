@@ -32,7 +32,8 @@ public class GCExpandedLimited : PokemonFormat
     {
         if (card.Reference.Supertype == CardSupertype.POKEMON)
         {
-            if (Array.Exists(card.Reference.Subtypes, (e) =>{
+            if (Array.Exists(card.Reference.Subtypes, (e) =>
+            {
                 return e == CardSubtype.EX || e == CardSubtype.MEGA || e == CardSubtype.BREAK || e == CardSubtype.GX || e == CardSubtype.V || e == CardSubtype.VMAX || e == CardSubtype.V_UNION;
             }))
             {
@@ -40,7 +41,8 @@ public class GCExpandedLimited : PokemonFormat
             }
             else
             {
-                if (card.Reference.Rules != null && Array.Exists(card.Reference.Rules, (e) =>{
+                if (card.Reference.Rules != null && Array.Exists(card.Reference.Rules, (e) =>
+                {
                     return e.Contains("Prism Star");
                 }))
                 {
@@ -96,7 +98,8 @@ public class GCExpandedLimited : PokemonFormat
         PokemonAttack[] attacks = reference.Attacks;
         for (int i = 0, count = attacks.Length; i < count; i++)
         {
-            if (Array.Exists(bannedAttacks, (e) =>{
+            if (Array.Exists(bannedAttacks, (e) =>
+            {
                 return e == attacks[i].Name;
             }))
             {
