@@ -16,7 +16,7 @@ public class GCExpandedLimited : PokemonFormat
             CardInDeck current = deck.DeckCards[i];
             if(current.Reference.Supertype != CardSupertype.UNKNOWN)
             {
-                if(CardHasRulebox(current))
+                if(current.Reference.HasRulebox())
                 {
                     current.AddNote(NoteType.INVALID, "Cards with Rule Boxes are not allowed.");
                 }
@@ -26,55 +26,6 @@ public class GCExpandedLimited : PokemonFormat
                 }
             }
         }
-    }
-
-    private bool CardHasRulebox(CardInDeck card)
-    {
-        if(card.Reference.Supertype == CardSupertype.POKEMON)
-        {
-            if(Array.Exists(card.Reference.Subtypes, (e) => {
-                return e == CardSubtype.EX || e == CardSubtype.MEGA || e == CardSubtype.BREAK || e == CardSubtype.GX || e == CardSubtype.V || e == CardSubtype.VMAX || e == CardSubtype.V_UNION;
-            }))
-            {
-                return true;
-            }
-        }
-        else if(card.Reference.Supertype == CardSupertype.TRAINER)
-        {
-            if(card.Reference.Rules != null)
-            {
-                foreach(string s in card.Reference.Rules)
-                {
-                    if(s.Contains("ACE SPEC") || s.Contains("Prism Star"))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if(card.Reference.Supertype == CardSupertype.ENERGY)
-        {
-            if(card.Reference.Rules != null)
-            {
-                foreach(string s in card.Reference.Rules)
-                {
-                    if(s.Contains("Prism Star"))
-                    {
-                        return true;
-                    }
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        return false;
     }
 
     private bool CardHasBannedAttack(CardInDeck card)
