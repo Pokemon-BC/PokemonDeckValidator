@@ -1,11 +1,7 @@
 {
   "dependencies": {
     "com.unity.2d.animation": {
-<<<<<<< HEAD
-      "version": "5.1.0",
-=======
       "version": "5.1.1",
->>>>>>> 8011d3372d87736c67007bbf72a9f933b9311ac1
       "depth": 0,
       "source": "registry",
       "dependencies": {

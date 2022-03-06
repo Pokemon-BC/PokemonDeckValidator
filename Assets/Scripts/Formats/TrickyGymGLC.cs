@@ -28,15 +28,15 @@ public class TrickyGymGLC : PokemonFormat
         // If we encounter a dual type card before the type is set it's an issue so go back to them afterwards.
         List<CardInDeck> callbacks = new List<CardInDeck>();
 
-        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck current = deck.DeckCards[i];
-            if(current.Reference.Supertype == CardSupertype.POKEMON)
+            if (current.Reference.Supertype == CardSupertype.POKEMON)
             {
-                if(deckType == PokemonType.NONE)
+                if (deckType == PokemonType.NONE)
                 {
                     // First card, define type
-                    if(current.Reference.Types.Length == 1)
+                    if (current.Reference.Types.Length == 1)
                     {
                         deckType = current.Reference.Types[0];
                     }
@@ -48,22 +48,22 @@ public class TrickyGymGLC : PokemonFormat
                 else
                 {
                     // Subsequent cards, check type
-                    if(!Array.Exists(current.Reference.Types, (e) => e == deckType))
+                    if (!Array.Exists(current.Reference.Types, (e) => e == deckType))
                     {
                         current.AddNote(NoteType.INVALID, "This Pokemon is not in the deck's primary type.");
                     }
                 }
             }
         }
-        if(deckType == PokemonType.NONE)
+        if (deckType == PokemonType.NONE)
         {
             deck.AddNote(NoteType.ERROR, "There are no single type pokemon in the deck. This is not supported by the checker.");
         }
-        for(int i = 0, count = callbacks.Count; i < count; i++)
+        for (int i = 0, count = callbacks.Count; i < count; i++)
         {
             CardInDeck current = callbacks[i];
             // Subsequent cards, check type
-            if(!Array.Exists(current.Reference.Types, (e) => e == deckType))
+            if (!Array.Exists(current.Reference.Types, (e) => e == deckType))
             {
                 current.AddNote(NoteType.INVALID, "This Pokemon is not in the deck's primary type.");
             }
@@ -73,12 +73,12 @@ public class TrickyGymGLC : PokemonFormat
     // Includes ACE SPEC Rule
     private void ApplyRuleBoxRule(PokemonDeck deck)
     {
-        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck current = deck.DeckCards[i];
-            if(current.Reference.Supertype != CardSupertype.UNKNOWN)
+            if (current.Reference.Supertype != CardSupertype.UNKNOWN)
             {
-                if(current.Reference.HasRulebox())
+                if (current.Reference.HasRulebox())
                 {
                     current.AddNote(NoteType.INVALID, "Cards with Rule Boxes are not allowed.");
                 }
@@ -89,12 +89,12 @@ public class TrickyGymGLC : PokemonFormat
     // BLW Onwards but includes banned expanded cards.
     private void ApplyNewnessRule(PokemonDeck deck)
     {
-        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck current = deck.DeckCards[i];
-            if(current.Reference.Supertype != CardSupertype.UNKNOWN)
+            if (current.Reference.Supertype != CardSupertype.UNKNOWN)
             {
-                if(current.Reference.Legalities.Expanded == Legality.LEGAL || current.Reference.Legalities.Expanded == Legality.BANNED ||
+                if (current.Reference.Legalities.Expanded == Legality.LEGAL || current.Reference.Legalities.Expanded == Legality.BANNED ||
                    current.Reference.Legalities.Standard == Legality.LEGAL || current.Reference.Legalities.Standard == Legality.BANNED)
                 {
                     // Pass

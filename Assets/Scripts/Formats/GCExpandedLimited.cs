@@ -16,7 +16,7 @@ public class GCExpandedLimited : PokemonFormat
             CardInDeck current = deck.DeckCards[i];
             if (current.Reference.Supertype != CardSupertype.UNKNOWN)
             {
-                if(current.Reference.HasRulebox())
+                if (current.Reference.HasRulebox())
                 {
                     current.AddNote(NoteType.INVALID, "Cards with Rule Boxes are not allowed.");
                 }
