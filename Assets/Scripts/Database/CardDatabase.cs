@@ -239,26 +239,26 @@ namespace PKMN
                 PokemonSet[] addonSets = PokemonLoader.LoadAddonSets();
                 for (int i = 0, count = addonSets.Length; i < count; i++)
                 {
-                    PokemonSet current = addonSets[i];
-                    string key = current.PtcgoCode;
-                    if (current.PtcgoCode == null)
+                    PokemonSet newset = addonSets[i];
+                    string key = newset.PtcgoCode;
+                    if (newset.PtcgoCode == null)
                     {
-                        key = current.ID;
+                        key = newset.ID;
                     }
-                    if (current.Legalities.IsStandardLegal || current.Legalities.IsExpandedLegal)
+                    if (newset.Legalities.IsStandardLegal || newset.Legalities.IsExpandedLegal)
                     {
                         if (tcgoIdToSet.ContainsKey(key))
                         {
-                            Debug.LogWarning("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
+                            Debug.LogWarning("Conflict between new set " + newset.Name + " and old set " + tcgoIdToSet[key].Name);
                         }
                         else
                         {
-                            tcgoIdToSet.Add(key, current);
+                            tcgoIdToSet.Add(key, newset);
                         }
                     }
 
-                    PokemonCard[] cards = PokemonLoader.LoadCardsInAddonSet(current.ID);
-                    internalIdToSet.Add(current.ID, new LoadedSet(current.ID, current.PtcgoCode, current, cards));
+                    PokemonCard[] cards = PokemonLoader.LoadCardsInAddonSet(newset.ID);
+                    internalIdToSet.Add(newset.ID, new LoadedSet(newset.ID, newset.PtcgoCode, newset, cards));
                 }
             }
         }

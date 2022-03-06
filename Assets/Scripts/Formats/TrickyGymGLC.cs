@@ -18,8 +18,7 @@ public class TrickyGymGLC : PokemonFormat
     protected override void CustomFormatRules(PokemonDeck deck)
     {
         ApplySingleTypeRule(deck);
-        ApplyRuleBoxRule(deck);
-        ApplyNewnessRule(deck);
+        ApplyCardSpecificRules(deck);
     }
 
     private void ApplySingleTypeRule(PokemonDeck deck)
@@ -70,12 +69,13 @@ public class TrickyGymGLC : PokemonFormat
         }
     }
 
-    // Includes ACE SPEC Rule
-    private void ApplyRuleBoxRule(PokemonDeck deck)
+    private void ApplyCardSpecificRules(PokemonDeck deck)
     {
         for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck current = deck.DeckCards[i];
+
+            // Rulebox Rule
             if (current.Reference.Supertype != CardSupertype.UNKNOWN)
             {
                 if (current.Reference.HasRulebox())
@@ -83,15 +83,8 @@ public class TrickyGymGLC : PokemonFormat
                     current.AddNote(NoteType.INVALID, "Cards with Rule Boxes are not allowed.");
                 }
             }
-        }
-    }
 
-    // BLW Onwards but includes banned expanded cards.
-    private void ApplyNewnessRule(PokemonDeck deck)
-    {
-        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
-        {
-            CardInDeck current = deck.DeckCards[i];
+            // Newness Rule
             if (current.Reference.Supertype != CardSupertype.UNKNOWN)
             {
                 if (current.Reference.Legalities.Expanded == Legality.LEGAL || current.Reference.Legalities.Expanded == Legality.BANNED ||
@@ -104,6 +97,7 @@ public class TrickyGymGLC : PokemonFormat
                     current.AddNote(NoteType.INVALID, "The card must be defined in expanded or standard legality.");
                 }
             }
+
         }
     }
 }
