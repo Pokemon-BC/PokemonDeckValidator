@@ -70,7 +70,7 @@ public class GCSpringFling : PokemonFormat
     private bool TrainerContainsCoinFlip(PokemonCard card)
     {
         // I am not writing a custom regex just to accomidate one card.
-        if (card.Name == "Blunder Policy")
+        if (card.Name == "Blunder Policy" || card.Name == "Ilima" || card.Name == "Battle City")
         {
             return true;
         }
