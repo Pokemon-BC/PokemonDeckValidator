@@ -170,5 +170,177 @@
       "small": "https://archives.bulbagarden.net/media/upload/9/9b/FairyEnergySwordShield.jpg",
       "large": "https://archives.bulbagarden.net/media/upload/9/9b/FairyEnergySwordShield.jpg"
     }
+  },
+  {
+    "id": "swsh-energy-10",
+    "name": "Grass Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "10",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/1/1d/GrassEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/1/1d/GrassEnergyTeamUp.jpg"
+    }
+  },
+  {
+    "id": "swsh-energy-11",
+    "name": "Fire Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "11",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/f/fc/FireEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/f/fc/FireEnergyTeamUp.jpg"
+    }
+  },
+  {
+    "id": "swsh-energy-12",
+    "name": "Water Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "12",
+    "artist": "5ban Graphics",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/1/10/WaterEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/1/10/WaterEnergyTeamUp.jpg"
+    }
+  },
+  {
+    "id": "swsh-energy-13",
+    "name": "Lightning Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "13",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/b/b1/LightningEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/b/b1/LightningEnergyTeamUp.jpg"
+    }
+  },
+  {
+    "id": "swsh-energy-14",
+    "name": "Psychic Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "14",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/2/23/PsychicEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/2/23/PsychicEnergyTeamUp.jpg"
+    }
+  },
+  {
+    "id": "swsh-energy-15",
+    "name": "Fighting Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "15",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/f/f8/FightingEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/f/f8/FightingEnergyTeamUp.jpg"
+    }
+  },
+  {
+    "id": "swsh-energy-16",
+    "name": "Darkness Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "16",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/0/04/DarknessEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/0/04/DarknessEnergyTeamUp.jpg"
+    }
+  },
+  {
+    "id": "swsh-energy-17",
+    "name": "Metal Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "17",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/d/de/MetalEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/d/de/MetalEnergyTeamUp.jpg"
+    }
+  },
+  {
+    "id": "swsh-energy-18",
+    "name": "Fairy Energy",
+    "supertype": "Energy",
+    "subtypes": [
+      "Basic"
+    ],
+    "number": "18",
+    "rarity": "Common",
+    "legalities": {
+      "unlimited": "Legal",
+      "standard": "Legal",
+      "expanded": "Legal"
+    },
+    "images": {
+      "small": "https://archives.bulbagarden.net/media/upload/2/2e/FairyEnergyTeamUp.jpg",
+      "large": "https://archives.bulbagarden.net/media/upload/2/2e/FairyEnergyTeamUp.jpg"
+    }
   }
 ]

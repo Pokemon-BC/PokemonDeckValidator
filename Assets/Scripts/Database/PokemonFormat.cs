@@ -81,7 +81,7 @@ public abstract class PokemonFormat
                 {
                     cid.AddNote(NoteType.INVALID, "There are more than " + maxCopies + " cards with this name.");
                 }
-                if (Array.Exists(cid.Reference.Rules, (e) => e.Contains("(Prism Star)")))
+                if (cid.Reference.Rules != null && Array.Exists(cid.Reference.Rules, (e) => e.Contains("(Prism Star)")))
                 {
                     if (cid.Quantity > 1)
                     {
@@ -99,7 +99,7 @@ public abstract class PokemonFormat
                         }
                     }
                 }
-                if (Array.Exists(cid.Reference.Rules, (e) => e.Contains("ACE SPEC")))
+                if (cid.Reference.Rules != null && Array.Exists(cid.Reference.Rules, (e) => e.Contains("ACE SPEC")))
                 {
                     if (deckHasAceSpec)
                     {

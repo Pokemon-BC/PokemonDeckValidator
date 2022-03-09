@@ -78,7 +78,7 @@ namespace PKMN
                             name += " " + subsets[subi];
                         }
                         PokemonCard cardRef = CardDatabase.LookupCard(setId, collId);
-                        if(cardRef == null)
+                        if (cardRef == null)
                         {
                             cardRef = PokemonCard.GenerateErrorCard(name, collId);
                         }
@@ -98,10 +98,10 @@ namespace PKMN
             {
                 //string collId = new string(collIdRaw.Where(c => !char.IsControl(c)).ToArray());
                 List<char> newString = new List<char>();
-                for(int i = 0, count = raw.Length; i < count; i++)
+                for (int i = 0, count = raw.Length; i < count; i++)
                 {
                     char current = raw[i];
-                    if(!char.IsControl(current))
+                    if (!char.IsControl(current))
                     {
                         newString.Add(current);
                     }
@@ -136,17 +136,28 @@ namespace PKMN
                     {
                         if (tcgoIdToSet.ContainsKey(key))
                         {
-                            // Shining Fates Shiny Vault is a weird set that breaks convention.
-                            if(key == "SHF")
+                            // Shining Fates Shiny Vault Override
+                            if (key == "SHF")
                             {
                                 Debug.Log("Handling Shining Fates as a unique scenario.");
                                 PokemonSet inList = tcgoIdToSet[key];
-                                if(inList.ID == "swsh45sv" && current.ID == "swsh45")
+                                if (inList.ID == "swsh45sv" && current.ID == "swsh45")
                                 {
                                     tcgoIdToSet[key] = current;
                                 }
                             }
                             // End Shining Fates Compatability Code.
+                            // Begin Brilliant Stars Trainer Gallery Compatability Code
+                            else if (key == "BRS")
+                            {
+                                Debug.Log("Handling Brilliant Stars as a unique scenario.");
+                                PokemonSet inList = tcgoIdToSet[key];
+                                if (inList.ID == "swsh9tg" && current.ID == "swsh9")
+                                {
+                                    tcgoIdToSet[key] = current;
+                                }
+                            }
+                            // End Brilliant Stars Compatability Code
                             else
                             {
                                 Debug.LogWarning("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
@@ -167,15 +178,15 @@ namespace PKMN
             {
                 if (!initialized) Init();
                 // TCGO Handles promos differently, handled here:
-                if(ptcgoId == "PR-BLW")
+                if (ptcgoId == "PR-BLW")
                 {
                     collId = "BW" + collId;
                 }
-                else if(ptcgoId == "PR-SM")
+                else if (ptcgoId == "PR-SM")
                 {
                     collId = "SM" + collId;
                 }
-                else if(ptcgoId == "PR-SW")
+                else if (ptcgoId == "PR-SW")
                 {
                     collId = "SWSH" + collId;
                 }
@@ -190,10 +201,15 @@ namespace PKMN
                     else
                     {
                         PokemonCard[] cards = PokemonLoader.LoadCardsInSet(pokemonSet.ID);
-                        // Manual override for Shining Fates
-                        if(pokemonSet.ID == "swsh45")
+                        // Manual override for Shining Fates Shiny Vault
+                        if (pokemonSet.ID == "swsh45")
                         {
                             internalIdToSet.Add(pokemonSet.ID, new ShiningFatesOverride(pokemonSet.ID, ptcgoId, pokemonSet, cards));
+                        }
+                        // Manual override for Brilliant Stars Trainer Gallery
+                        else if (pokemonSet.ID == "swsh9")
+                        {
+                            internalIdToSet.Add(pokemonSet.ID, new BrilliantStarsOverride(pokemonSet.ID, ptcgoId, pokemonSet, cards));
                         }
                         else
                         {
@@ -201,7 +217,7 @@ namespace PKMN
                         }
                         ls = internalIdToSet[pokemonSet.ID];
                     }
-                    if(ls.setCards.TryGetValue(collId, out PokemonCard found))
+                    if (ls.setCards.TryGetValue(collId, out PokemonCard found))
                     {
                         return found;
                     }
@@ -223,26 +239,26 @@ namespace PKMN
                 PokemonSet[] addonSets = PokemonLoader.LoadAddonSets();
                 for (int i = 0, count = addonSets.Length; i < count; i++)
                 {
-                    PokemonSet current = addonSets[i];
-                    string key = current.PtcgoCode;
-                    if (current.PtcgoCode == null)
+                    PokemonSet newset = addonSets[i];
+                    string key = newset.PtcgoCode;
+                    if (newset.PtcgoCode == null)
                     {
-                        key = current.ID;
+                        key = newset.ID;
                     }
-                    if (current.Legalities.IsStandardLegal || current.Legalities.IsExpandedLegal)
+                    if (newset.Legalities.IsStandardLegal || newset.Legalities.IsExpandedLegal)
                     {
                         if (tcgoIdToSet.ContainsKey(key))
                         {
-                            Debug.LogWarning("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
+                            Debug.LogWarning("Conflict between new set " + newset.Name + " and old set " + tcgoIdToSet[key].Name);
                         }
                         else
                         {
-                            tcgoIdToSet.Add(key, current);
+                            tcgoIdToSet.Add(key, newset);
                         }
                     }
 
-                    PokemonCard[] cards = PokemonLoader.LoadCardsInAddonSet(current.ID);
-                    internalIdToSet.Add(current.ID, new LoadedSet(current.ID, current.PtcgoCode, current, cards));
+                    PokemonCard[] cards = PokemonLoader.LoadCardsInAddonSet(newset.ID);
+                    internalIdToSet.Add(newset.ID, new LoadedSet(newset.ID, newset.PtcgoCode, newset, cards));
                 }
             }
         }
@@ -260,10 +276,10 @@ namespace PKMN
                 ptcgoId = ptcgo;
                 setData = data;
                 setCards = new Dictionary<string, PokemonCard>();
-                for(int i = 0, count = cards.Length; i < count; i++)
+                for (int i = 0, count = cards.Length; i < count; i++)
                 {
                     PokemonCard current = cards[i];
-                    if(setCards.ContainsKey(current.Number))
+                    if (setCards.ContainsKey(current.Number))
                     {
                         Debug.LogWarning("Conflict between cards " + setCards[current.Number].ToString() + " and \n " + current.ToString());
                     }
@@ -290,19 +306,6 @@ namespace PKMN
                 hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(setId);
                 hashCode = hashCode * -1521134295 + EqualityComparer<PokemonSet>.Default.GetHashCode(setData);
                 return hashCode;
-            }
-        }
-
-        public class ShiningFatesOverride : LoadedSet
-        {
-            public ShiningFatesOverride(string id, string ptcgo, PokemonSet data, PokemonCard[] cards) : base(id, ptcgo, data, cards)
-            {
-                PokemonCard[] shinyVault = PokemonLoader.LoadCardsInSet("swsh45sv");
-                for(int i = 0, count = shinyVault.Length; i < count; i++)
-                {
-                    PokemonCard current = shinyVault[i];
-                    setCards.Add((CardHelper.ExtractNumber(current.Number) + 73).ToString(), current);
-                }
             }
         }
 
@@ -427,7 +430,7 @@ namespace PKMN
         public enum CardSubtype
         {
             // Pokemon
-            UNKNOWN, STAGE_1, STAGE_2, EX, MEGA, BREAK, RESTORED, GX, V, VMAX, V_UNION,
+            UNKNOWN, STAGE_1, STAGE_2, EX, MEGA, BREAK, RESTORED, GX, V, VMAX, V_UNION, VSTAR,
             // Trainers
             ITEM, PKMN_TOOL, PKMN_TOOL_FLARE, SUPPORTER, STADIUM,
             // Energy

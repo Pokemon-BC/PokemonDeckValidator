@@ -47,9 +47,9 @@ namespace PKMN
             public static PokemonType[] GetTypes(string[] types)
             {
                 PokemonType[] result = new PokemonType[types.Length];
-                for(int i = 0, count = types.Length; i < count; i++)
+                for (int i = 0, count = types.Length; i < count; i++)
                 {
-                    if(typeMapping.TryGetValue(types[i], out PokemonType value))
+                    if (typeMapping.TryGetValue(types[i], out PokemonType value))
                     {
                         result[i] = value;
                     }
@@ -89,6 +89,7 @@ namespace PKMN
                 {"V", CardSubtype.V},
                 {"VMAX", CardSubtype.VMAX},
                 {"V-UNION", CardSubtype.V_UNION},
+                {"VSTAR", CardSubtype.VSTAR},
                 // Trainers
                 {"Item", CardSubtype.ITEM},
                 {"Pokémon Tool", CardSubtype.PKMN_TOOL},
@@ -139,11 +140,11 @@ namespace PKMN
 
             public static bool ArraySameElements(object[] arr1, object[] arr2)
             {
-                if(arr1 == null && arr2 == null)
+                if (arr1 == null && arr2 == null)
                 {
                     return true;
                 }
-                else if((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null))
+                else if ((arr1 == null && arr2 != null) || (arr1 != null && arr2 == null))
                 {
                     return false;
                 }
@@ -169,7 +170,7 @@ namespace PKMN
             }
         }
 
-         [System.Serializable]
+        [System.Serializable]
         public class PokemonSet : IEquatable<PokemonSet>
         {
             [SerializeField]
@@ -224,8 +225,8 @@ namespace PKMN
 
             public override int GetHashCode()
             {
-                return id.GetHashCode() * name.GetHashCode() * series.GetHashCode() * printedTotal.GetHashCode() * 
-                       total.GetHashCode() * legalities.GetHashCode() * ptcgoCode.GetHashCode() * releaseDate.GetHashCode() * 
+                return id.GetHashCode() * name.GetHashCode() * series.GetHashCode() * printedTotal.GetHashCode() *
+                       total.GetHashCode() * legalities.GetHashCode() * ptcgoCode.GetHashCode() * releaseDate.GetHashCode() *
                        updatedAt.GetHashCode() * images.GetHashCode();
             }
 
@@ -440,8 +441,8 @@ namespace PKMN
 
             public bool IsReprintOf(PokemonCard other)
             {
-                return other.name == name && 
-                       other.supertype == supertype && 
+                return other.name == name &&
+                       other.supertype == supertype &&
                        CardHelper.ArraySameElements(other.subtypes, subtypes) &&
                        other.hp == hp &&
                        CardHelper.ArraySameElements(other.types, types) &&
@@ -487,7 +488,7 @@ namespace PKMN
 
             public override int GetHashCode()
             {
-                return id.GetHashCode() * name.GetHashCode() * supertype.GetHashCode() * hp.GetHashCode() * evolvesFrom.GetHashCode() * convertedRetreatCost.GetHashCode() * 
+                return id.GetHashCode() * name.GetHashCode() * supertype.GetHashCode() * hp.GetHashCode() * evolvesFrom.GetHashCode() * convertedRetreatCost.GetHashCode() *
                        number.GetHashCode() * artist.GetHashCode() * rarity.GetHashCode() * flavorText.GetHashCode() * legalities.GetHashCode() * images.GetHashCode();
             }
 
@@ -627,9 +628,9 @@ namespace PKMN
 
             public override int GetHashCode()
             {
-                return name.GetHashCode() * 
-                       convertedEnergyCost.GetHashCode() * 
-                       damage.GetHashCode() * 
+                return name.GetHashCode() *
+                       convertedEnergyCost.GetHashCode() *
+                       damage.GetHashCode() *
                        text.GetHashCode();
             }
 
