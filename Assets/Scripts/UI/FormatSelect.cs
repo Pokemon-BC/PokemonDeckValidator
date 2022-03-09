@@ -23,13 +23,13 @@ public class FormatSelect : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(selector == null)
+        if (selector == null)
         {
             selector = GetComponent<Dropdown>();
         }
         selector.ClearOptions();
         options = new List<Dropdown.OptionData>();
-        foreach(string formatName in formats.Keys)
+        foreach (string formatName in formats.Keys)
         {
             options.Add(new Dropdown.OptionData(formatName));
         }
