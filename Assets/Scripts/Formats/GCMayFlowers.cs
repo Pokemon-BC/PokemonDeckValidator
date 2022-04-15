@@ -11,6 +11,7 @@ public class GCMayFlowers : PokemonFormat
     public List<ShortCard> banList = new List<ShortCard>{
         new ShortCard("BRS", "10"),
         new ShortCard("CEL", "3"),
+        new ShortCard("BRS", "7"),
         new ShortCard("BRS", "8")
     };
     protected override List<ShortCard> FormatBanList { get => banList; }
