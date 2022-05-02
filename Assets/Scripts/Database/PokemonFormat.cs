@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 
 using PKMN.Cards;
+
 public abstract class PokemonFormat
 {
     // The number of cards with the same name allowed in a deck
@@ -81,7 +82,7 @@ public abstract class PokemonFormat
                 {
                     cid.AddNote(NoteType.INVALID, "There are more than " + maxCopies + " cards with this name.");
                 }
-                if (cid.Reference.Rules != null && Array.Exists(cid.Reference.Rules, (e) => e.Contains("(Prism Star)")))
+                if (cid.Reference.Rules.Length != 0 && Array.Exists(cid.Reference.Rules, (e) => e.Contains("(Prism Star)")))
                 {
                     if (cid.Quantity > 1)
                     {
@@ -99,7 +100,7 @@ public abstract class PokemonFormat
                         }
                     }
                 }
-                if (cid.Reference.Rules != null && Array.Exists(cid.Reference.Rules, (e) => e.Contains("ACE SPEC")))
+                if (cid.Reference.Rules.Length != 0 && Array.Exists(cid.Reference.Rules, (e) => e.Contains("ACE SPEC")))
                 {
                     if (deckHasAceSpec)
                     {

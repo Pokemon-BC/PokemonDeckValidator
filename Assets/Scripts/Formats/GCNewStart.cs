@@ -30,15 +30,15 @@ public class GCNewStart : PokemonFormat
         Dictionary<string, int> vunionCount = new Dictionary<string, int>();
         List<CardInDeck> vUnions = new List<CardInDeck>();
 
-        for(int i = 0, count = deck.DeckCards.Count; i < count; i++)
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck current = deck.DeckCards[i];
-            if(IsStarter(current))
+            if (IsStarter(current))
             {
-                if(current.Reference.Subtypes != null && Array.Exists(current.Reference.Subtypes, (e) => e == CardSubtype.V_UNION))
+                if (Array.Exists(current.Reference.Subtypes, (e) => e == CardSubtype.V_UNION))
                 {
                     vUnions.Add(current);
-                    if(vunionCount.ContainsKey(current.Reference.Name))
+                    if (vunionCount.ContainsKey(current.Reference.Name))
                     {
                         vunionCount[current.Reference.Name]++;
                     }
@@ -47,13 +47,13 @@ public class GCNewStart : PokemonFormat
                         vunionCount.Add(current.Reference.Name, 1);
                     }
 
-                    if(vunionCount[current.Reference.Name] == 4)
+                    if (vunionCount[current.Reference.Name] == 4)
                     {
                         numberOfStarters++;
-                        for(int j = 0, vunionCnt = vUnions.Count; j < vunionCnt; j++)
+                        for (int j = 0, vunionCnt = vUnions.Count; j < vunionCnt; j++)
                         {
                             CardInDeck vUnionNow = vUnions[j];
-                            if(vUnionNow.Reference.Name == current.Reference.Name)
+                            if (vUnionNow.Reference.Name == current.Reference.Name)
                             {
                                 starters.Add(vUnionNow);
                                 vUnionNow.AddNote(NoteType.NOTE, "V-Union Pokemon only count as 1 starter.");
@@ -70,7 +70,7 @@ public class GCNewStart : PokemonFormat
         }
 
         FormatedNote starterNote;
-        if(numberOfStarters >= 6)
+        if (numberOfStarters >= 6)
         {
             starterNote = new FormatedNote(NoteType.NOTE, "Valid Starter Pokemon");
             deck.AddNote(NoteType.NOTE, "There are " + numberOfStarters + " starter Pokemon in this deck.");
@@ -81,7 +81,7 @@ public class GCNewStart : PokemonFormat
             deck.AddNote(NoteType.INVALID, "There are " + numberOfStarters + " starter Pokemon in this deck which does not meet the required 6.");
         }
 
-        for(int i = 0, count = starters.Count; i < count; i++)
+        for (int i = 0, count = starters.Count; i < count; i++)
         {
             starters[i].AddNote(starterNote.severity, starterNote.text);
         }
@@ -89,7 +89,7 @@ public class GCNewStart : PokemonFormat
 
     private bool IsStarter(CardInDeck cid)
     {
-        if(starters.Exists((e) => cid.Reference.Name.Contains(e)))
+        if (starters.Exists((e) => cid.Reference.Name.Contains(e)))
         {
             return true;
         }

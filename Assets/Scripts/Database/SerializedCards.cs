@@ -10,6 +10,17 @@ namespace PKMN
     {
         static class CardHelper
         {
+            public static Legalities EMPTY_LEGALITIES = new Legalities();
+            public static SetImages EMPTY_SET_IMAGES = new SetImages();
+            public static CardSubtype[] EMPTY_SUBTYPES = new CardSubtype[0];
+            public static PokemonType[] EMPTY_TYPES = new PokemonType[0];
+            public static string[] EMPTY_STRING_LIST = new string[0];
+            public static PokemonAbility[] EMPTY_ABILITIES = new PokemonAbility[0];
+            public static PokemonAttack[] EMPTY_ATTACKS = new PokemonAttack[0];
+            public static WeaknessResistance[] EMPTY_WEAKNESS_RESISTANCE = new WeaknessResistance[0];
+            public static int[] EMPTY_INT_LIST = new int[0];
+            public static CardImages EMPTY_IMAGES = new CardImages();
+
             public static CardSupertype GetSupertype(string supertype)
             {
                 if (supertype == "Pokémon")
@@ -175,13 +186,13 @@ namespace PKMN
         {
             [SerializeField]
             private string id;
-            public string ID { get => id; }
+            public string ID { get => id ?? ""; }
             [SerializeField]
             private string name;
-            public string Name { get => name; }
+            public string Name { get => name ?? ""; }
             [SerializeField]
             private string series;
-            public string Series { get => series; }
+            public string Series { get => series ?? ""; }
             [SerializeField]
             private int printedTotal;
             public int PrintedTotal { get => printedTotal; }
@@ -190,19 +201,19 @@ namespace PKMN
             public int Total { get => total; }
             [SerializeField]
             private Legalities legalities;
-            public Legalities Legalities { get => legalities; }
+            public Legalities Legalities { get => legalities ?? CardHelper.EMPTY_LEGALITIES; }
             [SerializeField]
             private string ptcgoCode;
-            public string PtcgoCode { get => ptcgoCode; }
+            public string PtcgoCode { get => ptcgoCode ?? ""; }
             [SerializeField]
             private string releaseDate;
-            public string ReleaseDate { get => releaseDate; }
+            public string ReleaseDate { get => releaseDate ?? ""; }
             [SerializeField]
             private string updatedAt;
-            public string UpdatedAt { get => updatedAt; }
+            public string UpdatedAt { get => updatedAt ?? ""; }
             [SerializeField]
             private SetImages images;
-            public SetImages Images { get => images; }
+            public SetImages Images { get => images ?? CardHelper.EMPTY_SET_IMAGES; }
 
             public override bool Equals(object obj)
             {
@@ -239,6 +250,13 @@ namespace PKMN
         [System.Serializable]
         public class Legalities : IEquatable<Legalities>
         {
+            public Legalities()
+            {
+                unlimited = "";
+                standard = "";
+                expanded = "";
+            }
+
             [SerializeField]
             private string unlimited;
             public Legality Unlimited { get => CardHelper.MapLegality(unlimited); }
@@ -246,7 +264,7 @@ namespace PKMN
             {
                 get
                 {
-                    return unlimited != null && unlimited != "" && unlimited != "Banned";
+                    return unlimited != "" && unlimited != "Banned";
                 }
             }
             [SerializeField]
@@ -256,7 +274,7 @@ namespace PKMN
             {
                 get
                 {
-                    return expanded != null && expanded != "" && expanded != "Banned";
+                    return expanded != "" && expanded != "Banned";
                 }
             }
             [SerializeField]
@@ -266,7 +284,7 @@ namespace PKMN
             {
                 get
                 {
-                    return standard != null && standard != "" && standard != "Banned";
+                    return standard != "" && standard != "Banned";
                 }
             }
 
@@ -296,6 +314,12 @@ namespace PKMN
         [System.Serializable]
         public class SetImages : IEquatable<SetImages>
         {
+            public SetImages()
+            {
+                symbol = "";
+                logo = "";
+            }
+
             [SerializeField]
             private string symbol;
             public string Symbol { get => symbol; }
@@ -330,10 +354,10 @@ namespace PKMN
         {
             [SerializeField]
             private string id;
-            public string ID { get => id; }
+            public string ID { get => id ?? ""; }
             [SerializeField]
             private string name;
-            public string Name { get => name; }
+            public string Name { get => name ?? ""; }
             [SerializeField]
             private string supertype;
             private CardSupertype _supertype = CardSupertype.UNKNOWN;
@@ -362,6 +386,10 @@ namespace PKMN
                     {
                         return _subtypes;
                     }
+                    else if (subtypes == null)
+                    {
+                        return _subtypes = CardHelper.EMPTY_SUBTYPES;
+                    }
                     else
                     {
                         return _subtypes = CardHelper.GetSubtypes(subtypes);
@@ -370,8 +398,26 @@ namespace PKMN
             }
             [SerializeField]
             private string hp;
+            public int _hp;
             // TODO can this be an int?
-            public string HP { get => hp; }
+            public int HP
+            {
+                get
+                {
+                    if (_hp != 0)
+                    {
+                        return _hp;
+                    }
+                    else if (Int32.TryParse(hp, out int result))
+                    {
+                        return _hp = result;
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+            }
             [SerializeField]
             private string[] types;
             private PokemonType[] _types;
@@ -383,6 +429,10 @@ namespace PKMN
                     {
                         return _types;
                     }
+                    else if (types == null)
+                    {
+                        return _types = CardHelper.EMPTY_TYPES;
+                    }
                     else
                     {
                         return _types = CardHelper.GetTypes(types);
@@ -391,53 +441,52 @@ namespace PKMN
             }
             [SerializeField]
             private string evolvesFrom;
-            public string EvolvesFrom { get => evolvesFrom; }
+            public string EvolvesFrom { get => evolvesFrom ?? ""; }
             [SerializeField]
             private string[] evolvesTo;
-            public string[] EvolvesTo { get => evolvesTo; }
+            public string[] EvolvesTo { get => evolvesTo ?? CardHelper.EMPTY_STRING_LIST; }
             [SerializeField]
             private string[] rules;
-            public string[] Rules { get => rules; }
+            public string[] Rules { get => rules ?? CardHelper.EMPTY_STRING_LIST; }
             [SerializeField]
             private PokemonAbility[] abilities;
-            public PokemonAbility[] Abilities { get => abilities; }
+            public PokemonAbility[] Abilities { get => abilities ?? CardHelper.EMPTY_ABILITIES; }
             [SerializeField]
             private PokemonAttack[] attacks;
-            public PokemonAttack[] Attacks { get => attacks; }
+            public PokemonAttack[] Attacks { get => attacks ?? CardHelper.EMPTY_ATTACKS; }
             [SerializeField]
             private WeaknessResistance[] weaknesses;
-            public WeaknessResistance[] Weakness { get => weaknesses; }
+            public WeaknessResistance[] Weakness { get => weaknesses ?? CardHelper.EMPTY_WEAKNESS_RESISTANCE; }
             [SerializeField]
             private WeaknessResistance[] resistances;
-            public WeaknessResistance[] Resistances { get => resistances; }
+            public WeaknessResistance[] Resistances { get => resistances ?? CardHelper.EMPTY_WEAKNESS_RESISTANCE; }
             [SerializeField]
             private int convertedRetreatCost;
             public int ConvertedRetreatCost { get => convertedRetreatCost; }
             [SerializeField]
             private string number;
-            public string Number { get => number; }
+            public string Number { get => number ?? ""; }
             [SerializeField]
             private string artist;
-            public string Artist { get => artist; }
+            public string Artist { get => artist ?? ""; }
             [SerializeField]
             private string rarity;
-            // TODO can probably be an enum
-            public string Rarity { get => rarity; }
+            public string Rarity { get => rarity ?? ""; }
             [SerializeField]
             private string flavorText;
-            public string FlavorText { get => flavorText; }
+            public string FlavorText { get => flavorText ?? ""; }
             [SerializeField]
             private int[] nationalPokedexNumbers;
-            public int[] NationalPokedexNumbers { get => nationalPokedexNumbers; }
+            public int[] NationalPokedexNumbers { get => nationalPokedexNumbers ?? CardHelper.EMPTY_INT_LIST; }
             [SerializeField]
             private Legalities legalities;
-            public Legalities Legalities { get => legalities; }
+            public Legalities Legalities { get => legalities ?? CardHelper.EMPTY_LEGALITIES; }
             [SerializeField]
             private string regulationMark;
-            public string RegulationMark { get => regulationMark; }
+            public string RegulationMark { get => regulationMark ?? ""; }
             [SerializeField]
             private CardImages images;
-            public CardImages Images { get => images; }
+            public CardImages Images { get => images ?? CardHelper.EMPTY_IMAGES; }
 
             public bool IsReprintOf(PokemonCard other)
             {
@@ -511,6 +560,12 @@ namespace PKMN
         [System.Serializable]
         public class CardImages : IEquatable<CardImages>
         {
+            public CardImages()
+            {
+                small = "";
+                large = "";
+            }
+
             [SerializeField]
             private string small;
             public string Small { get => small; }
@@ -545,17 +600,24 @@ namespace PKMN
         {
             [SerializeField]
             private string type;
+            private PokemonType _type;
             public PokemonType Type
             {
                 get
                 {
-                    return CardHelper.GetType(type);
+                    if (_type != PokemonType.NONE)
+                    {
+                        return _type;
+                    }
+                    else
+                    {
+                        return _type = CardHelper.GetType(type);
+                    }
                 }
             }
             [SerializeField]
             private string value;
-            // TODO can this be an int?
-            public string Value { get => value; }
+            public string Value { get => value ?? ""; }
 
             public override bool Equals(object obj)
             {
@@ -584,7 +646,7 @@ namespace PKMN
         {
             [SerializeField]
             private string name;
-            public string Name { get => name; }
+            public string Name { get => name ?? ""; }
             [SerializeField]
             private string[] cost;
             private PokemonType[] _cost;
@@ -607,10 +669,10 @@ namespace PKMN
             public int ConvertedEnergyCost { get => convertedEnergyCost; }
             [SerializeField]
             private string damage;
-            public string Damage { get => damage; }
+            public string Damage { get => damage ?? ""; }
             [SerializeField]
             private string text;
-            public string Text { get => text; }
+            public string Text { get => text ?? ""; }
 
             public override bool Equals(object obj)
             {
@@ -645,13 +707,13 @@ namespace PKMN
         {
             [SerializeField]
             private string name;
-            public string Name { get => name; }
+            public string Name { get => name ?? ""; }
             [SerializeField]
             private string text;
-            public string Text { get => text; }
+            public string Text { get => text ?? ""; }
             [SerializeField]
             private string type;
-            public string Type { get => type; }
+            public string Type { get => type ?? ""; }
 
             public override bool Equals(object obj)
             {
@@ -675,7 +737,5 @@ namespace PKMN
                 return JsonUtility.ToJson(this);
             }
         }
-
-
     }
 }

@@ -19,7 +19,7 @@ namespace PKMN.Cards
             }
             else if (card.Supertype == CardSupertype.TRAINER)
             {
-                if (card.Rules != null)
+                if (card.Rules.Length != 0)
                 {
                     foreach (string s in card.Rules)
                     {
@@ -36,7 +36,7 @@ namespace PKMN.Cards
             }
             else if (card.Supertype == CardSupertype.ENERGY)
             {
-                if (card.Rules != null)
+                if (card.Rules.Length != 0)
                 {
                     foreach (string s in card.Rules)
                     {
