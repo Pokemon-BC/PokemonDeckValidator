@@ -400,7 +400,7 @@ namespace PKMN
             private string hp;
             public int _hp;
             // TODO can this be an int?
-            public int HP 
+            public int HP
             {
                 get
                 {
@@ -605,7 +605,7 @@ namespace PKMN
             {
                 get
                 {
-                    if(_type != PokemonType.NONE)
+                    if (_type != PokemonType.NONE)
                     {
                         return _type;
                     }
