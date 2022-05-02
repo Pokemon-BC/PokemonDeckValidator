@@ -53,7 +53,7 @@ public class GCSpringFling : PokemonFormat
 
     private bool PokemonContainsCoinFlip(PokemonCard card)
     {
-        if (card.Attacks != null)
+        if (card.Attacks.Length != 0)
         {
             for (int i = 0, count = card.Attacks.Length; i < count; i++)
             {
@@ -74,7 +74,7 @@ public class GCSpringFling : PokemonFormat
         {
             return true;
         }
-        if (card.Rules != null)
+        if (card.Rules.Length != 0)
         {
             for (int i = 0, count = card.Rules.Length; i < count; i++)
             {

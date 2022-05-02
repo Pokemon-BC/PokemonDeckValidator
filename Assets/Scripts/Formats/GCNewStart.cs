@@ -35,7 +35,7 @@ public class GCNewStart : PokemonFormat
             CardInDeck current = deck.DeckCards[i];
             if(IsStarter(current))
             {
-                if(current.Reference.Subtypes != null && Array.Exists(current.Reference.Subtypes, (e) => e == CardSubtype.V_UNION))
+                if(Array.Exists(current.Reference.Subtypes, (e) => e == CardSubtype.V_UNION))
                 {
                     vUnions.Add(current);
                     if(vunionCount.ContainsKey(current.Reference.Name))

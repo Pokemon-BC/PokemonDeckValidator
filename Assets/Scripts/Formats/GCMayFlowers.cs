@@ -28,7 +28,7 @@ public class GCMayFlowers : PokemonFormat
                 cid.AddNote(NoteType.INVALID, "Rulebox Cards are not allowed in this format.");
             }
             // * Strike Cards
-            if (current.Subtypes != null && current.Supertype == CardSupertype.POKEMON)
+            if (current.Supertype == CardSupertype.POKEMON)
             {
                 if (Array.Exists(current.Subtypes, (e) => e == CardSubtype.SINGLE_STRIKE || e == CardSubtype.RAPID_STRIKE || e == CardSubtype.FUSION_STRIKE))
                 {
@@ -36,7 +36,7 @@ public class GCMayFlowers : PokemonFormat
                 }
             }
             // Shady Dealings
-            if (current.Supertype == CardSupertype.POKEMON && current.Abilities != null)
+            if (current.Supertype == CardSupertype.POKEMON && current.Abilities.Length != 0)
             {
                 if (Array.Exists(current.Abilities, (e) => e.Name == "Shady Dealings"))
                 {
@@ -44,7 +44,7 @@ public class GCMayFlowers : PokemonFormat
                 }
             }
             // Type clause
-            if (current.Supertype == CardSupertype.POKEMON && current.Types != null)
+            if (current.Supertype == CardSupertype.POKEMON)
             {
                 if (!Array.Exists(current.Types, (e) => e == PokemonType.WATER || e == PokemonType.GRASS))
                 {

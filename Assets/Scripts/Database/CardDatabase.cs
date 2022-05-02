@@ -128,7 +128,7 @@ namespace PKMN
                 {
                     PokemonSet current = sets[i];
                     string key = current.PtcgoCode;
-                    if (current.PtcgoCode == null)
+                    if (current.PtcgoCode == "")
                     {
                         key = current.ID;
                     }
@@ -241,7 +241,7 @@ namespace PKMN
                 {
                     PokemonSet newset = addonSets[i];
                     string key = newset.PtcgoCode;
-                    if (newset.PtcgoCode == null)
+                    if (newset.PtcgoCode == "")
                     {
                         key = newset.ID;
                     }
