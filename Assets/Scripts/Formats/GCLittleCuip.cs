@@ -6,6 +6,13 @@ using PKMN.Cards;
 
 public class GCLittleCuip : PokemonFormat
 {
+    private List<ShortCard> banList = new List<ShortCard>()
+    {
+        new ShortCard("BST", "131"), // Rapid Strike Scroll of Swirls
+    };
+
+    protected override List<ShortCard> FormatBanList { get => banList; }
+
     protected override bool RequireStandardLegal { get => true; }
 
     protected override void CustomFormatRules(PokemonDeck deck)
