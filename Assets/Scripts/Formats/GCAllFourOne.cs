@@ -28,7 +28,7 @@ public class GCAllFourOne : PokemonFormat
         for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
         {
             CardInDeck current = deck.DeckCards[i];
-            
+
             if (cardCounts.ContainsKey(current.Reference.Name))
             {
                 cardCounts[current.Reference.Name].qty += current.Quantity;
