@@ -158,6 +158,17 @@ namespace PKMN
                                 }
                             }
                             // End Brilliant Stars Compatability Code
+                            // Begin Astral Radiance Compatibility Code
+                            else if (key == "ASR")
+                            {
+                                Debug.Log("Handling Astral Radiance as a unique scenario.");
+                                PokemonSet inList = tcgoIdToSet[key];
+                                if (inList.ID == "swsh10tg" && current.ID == "swsh10")
+                                {
+                                    tcgoIdToSet[key] = current;
+                                }
+                            }
+                            // End Astral Radiance Compatability Code
                             else
                             {
                                 Debug.LogWarning("Conflict between new set " + current.Name + " and old set " + tcgoIdToSet[key].Name);
