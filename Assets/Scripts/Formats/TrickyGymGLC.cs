@@ -10,10 +10,12 @@ public class TrickyGymGLC : PokemonFormat
 
     private List<ShortCard> banList = new List<ShortCard>() {
         new ShortCard("PHF", "99"), // Lysandre's Trump Card
-        new ShortCard("UPR", "114") // Oranguru
+        new ShortCard("UPR", "114"), // Oranguru
+        new ShortCard("AOR", "74"), // Forest of Giant Plants
+        new ShortCard("UNB", "165"), // Chip Chip Ice Axe
+        new ShortCard("CES", "133") // Hiker
     };
     protected override List<ShortCard> FormatBanList { get => banList; }
-
 
     protected override void CustomFormatRules(PokemonDeck deck)
     {

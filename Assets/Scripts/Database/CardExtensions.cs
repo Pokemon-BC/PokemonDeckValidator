@@ -11,8 +11,11 @@ namespace PKMN.Cards
         {
             if (card.Supertype == CardSupertype.POKEMON)
             {
-                if (Array.Exists(card.Subtypes, SubtypeIsRulebox
-            ))
+                if (Array.Exists(card.Subtypes, SubtypeIsRulebox))
+                {
+                    return true;
+                }
+                else if (Array.Exists(card.Rules, RuleTextIsRulebox))
                 {
                     return true;
                 }
@@ -21,12 +24,9 @@ namespace PKMN.Cards
             {
                 if (card.Rules.Length != 0)
                 {
-                    foreach (string s in card.Rules)
+                    if (Array.Exists(card.Rules, RuleTextIsRulebox))
                     {
-                        if (s.Contains("ACE SPEC") || s.Contains("Prism Star"))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
                 else
@@ -38,12 +38,9 @@ namespace PKMN.Cards
             {
                 if (card.Rules.Length != 0)
                 {
-                    foreach (string s in card.Rules)
+                    if (Array.Exists(card.Rules, RuleTextIsRulebox))
                     {
-                        if (s.Contains("Prism Star"))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
                 else
@@ -59,6 +56,23 @@ namespace PKMN.Cards
                 return subtype == CardSubtype.EX || subtype == CardSubtype.MEGA || subtype == CardSubtype.BREAK ||
                        subtype == CardSubtype.GX || subtype == CardSubtype.V || subtype == CardSubtype.VMAX ||
                        subtype == CardSubtype.V_UNION || subtype == CardSubtype.VSTAR;
+            }
+
+            bool RuleTextIsRulebox(string rule)
+            {
+                return rule.Contains("ACE SPEC") || rule.Contains("(Prism Star)") || rule.Contains("Radiant Pokémon");
+            }
+        }
+
+        public static bool IsBasicEnergy(this PokemonCard card)
+        {
+            if (card.Supertype == CardSupertype.ENERGY && Array.Exists(card.Subtypes, (e) => e == CardSubtype.BASIC))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }

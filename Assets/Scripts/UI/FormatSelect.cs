@@ -10,14 +10,15 @@ public class FormatSelect : MonoBehaviour
 
     public static Dictionary<string, PokemonFormat> formats = new Dictionary<string, PokemonFormat>()
     {
-        {"GC: Little Cup", new GCLittleCuip()},
+        {"GC: All Four One", new GCAllFourOne()},
         {"TJ: Gym Leader Challenge", new TrickyGymGLC()},
         {"Standard", new StandardFormat()},
         {"Expanded", new ExpandedFormat()},
         {"GC: New Start", new GCNewStart()},
         {"GC: Expanded Limited", new GCExpandedLimited()},
         {"GC: Spring Fling", new GCSpringFling()},
-        {"GC: April Showers, May Flowers", new GCMayFlowers()}
+        {"GC: April Showers, May Flowers", new GCMayFlowers()},
+        {"GC: Little Cup", new GCLittleCuip()}
     };
 
     protected List<Dropdown.OptionData> options;
