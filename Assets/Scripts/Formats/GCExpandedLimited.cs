@@ -7,7 +7,7 @@ public class GCExpandedLimited : PokemonFormat
 {
     protected override bool RequireExpandedLegal => true;
 
-    private List<string> bannedAttacks = new List<string>{ "Lost March", "Night March", "Mad Party", "Let's All Rollout", "Bee Revenge", "Vengeance" };
+    private List<string> bannedAttacks = new List<string> { "Lost March", "Night March", "Mad Party", "Let's All Rollout", "Bee Revenge", "Vengeance" };
     protected override List<string> BannedAttacks => bannedAttacks;
 
     protected override void CustomFormatRules(PokemonDeck deck)

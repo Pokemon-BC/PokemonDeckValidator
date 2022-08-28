@@ -16,7 +16,7 @@ public class GCMayFlowers : PokemonFormat
     };
     protected override List<ShortCard> FormatBanList { get => banList; }
 
-    private List<string> bannedAbilities = new List<string>(){ "Shady Dealings" };
+    private List<string> bannedAbilities = new List<string>() { "Shady Dealings" };
     protected override List<string> BannedAbilities { get => bannedAbilities; }
 
     protected override void CustomFormatRules(PokemonDeck deck)

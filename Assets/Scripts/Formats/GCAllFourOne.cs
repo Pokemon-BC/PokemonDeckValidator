@@ -20,9 +20,9 @@ public class GCAllFourOne : PokemonFormat
     protected override bool RequireStandardLegal { get => true; }
     protected override bool RuleBoxesBanned => true;
 
-    private List<string> bannedAttacks = new List<string>(){ "Mad Party", "Let's All Rollout" };
+    private List<string> bannedAttacks = new List<string>() { "Mad Party", "Let's All Rollout" };
     protected override List<string> BannedAttacks { get => bannedAttacks; }
-    private List<string> bannedAbilities = new List<string>(){ "Shady Dealings" };
+    private List<string> bannedAbilities = new List<string>() { "Shady Dealings" };
     protected override List<string> BannedAbilities { get => bannedAbilities; }
 
     protected override void CustomFormatRules(PokemonDeck deck)

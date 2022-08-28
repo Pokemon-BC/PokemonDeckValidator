@@ -7,7 +7,7 @@ using PKMN.Cards;
 public class GCItTakesTwo : PokemonFormat
 {
     protected override bool RequireStandardLegal { get => true; }
-    private List<string> bannedAttacks = new List<string>{ "Mad Party", "Let's All Rollout" };
+    private List<string> bannedAttacks = new List<string> { "Mad Party", "Let's All Rollout" };
     protected override List<string> BannedAttacks => bannedAttacks;
 
 

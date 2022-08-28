@@ -20,9 +20,9 @@ public class GCSingleFile : PokemonFormat
         new ShortCard("CPA", "26") // Machamp (Revenge)
     };
 
-    private List<string> bannedAttacks = new List<string>(){"Mad Party", "Night March", "Lost March", "Matron's Anger"};
+    private List<string> bannedAttacks = new List<string>() { "Mad Party", "Night March", "Lost March", "Matron's Anger" };
     protected override List<string> BannedAttacks { get => bannedAttacks; }
-    private List<string> bannedAbilities = new List<string>(){"Shady Dealings"};
+    private List<string> bannedAbilities = new List<string>() { "Shady Dealings" };
     protected override List<string> BannedAbilities { get => bannedAbilities; }
 
     protected override void CustomFormatRules(PokemonDeck deck)

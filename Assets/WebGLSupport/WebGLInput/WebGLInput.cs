@@ -74,7 +74,7 @@ namespace WebGLSupport
         public static extern void WebGLInputEnableTabText(int id, bool enable);
 #endif
 #else
-        public static void WebGLInputInit() {}
+        public static void WebGLInputInit() { }
         public static int WebGLInputCreate(string canvasId, int x, int y, int width, int height, int fontsize, string text, string placeholder, bool isMultiLine, bool isPassword, bool isHidden, bool isMobile) { return 0; }
         public static void WebGLInputEnterSubmit(int id, bool flag) { }
         public static void WebGLInputTab(int id, Action<int, int> cb) { }
@@ -354,7 +354,8 @@ namespace WebGLSupport
                 if (Application.isMobilePlatform)
                 {
                     return;
-                } else
+                }
+                else
                 {
                     OnSelect();
                 }
