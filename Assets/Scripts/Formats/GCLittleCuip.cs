@@ -14,6 +14,10 @@ public class GCLittleCuip : PokemonFormat
     protected override List<ShortCard> FormatBanList { get => banList; }
 
     protected override bool RequireStandardLegal { get => true; }
+    private List<string> bannedAttacks = new List<string>(){ "Mad Party", "Let's All Rollout" };
+    protected override List<string> BannedAttacks { get => bannedAttacks; }
+    private List<string> bannedAbilities = new List<string>(){ "Shady Dealings" };
+    protected override List<string> BannedAbilities { get => bannedAbilities; }
 
     protected override void CustomFormatRules(PokemonDeck deck)
     {
@@ -25,22 +29,6 @@ public class GCLittleCuip : PokemonFormat
             if (current.HasRulebox())
             {
                 cid.AddNote(NoteType.INVALID, "Rulebox Cards are not allowed in this format.");
-            }
-            // Shady Dealings
-            if (current.Supertype == CardSupertype.POKEMON && current.Abilities.Length != 0)
-            {
-                if (Array.Exists(current.Abilities, (e) => e.Name == "Shady Dealings"))
-                {
-                    cid.AddNote(NoteType.INVALID, "Cards with the ability Shady Dealings are not allowed in this deck.");
-                }
-            }
-            // Let's All Rollout & Mad Party
-            if (current.Supertype == CardSupertype.POKEMON && current.Attacks.Length != 0)
-            {
-                if (Array.Exists(current.Attacks, (e) => e.Name == "Let's All Rollout" || e.Name == "Mad Party"))
-                {
-                    cid.AddNote(NoteType.INVALID, "Cards with the attack \"Let's All Rollout\" or \"Mad Party\" are not allowed in this deck.");
-                }
             }
             // HP Requirement
             if (current.Supertype == CardSupertype.POKEMON)

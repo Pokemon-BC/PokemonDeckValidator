@@ -7,7 +7,8 @@ public class GCExpandedLimited : PokemonFormat
 {
     protected override bool RequireExpandedLegal => true;
 
-    public string[] bannedAttacks = new string[] { "Lost March", "Night March", "Mad Party", "Let's All Rollout", "Bee Revenge", "Vengeance" };
+    private List<string> bannedAttacks = new List<string>{ "Lost March", "Night March", "Mad Party", "Let's All Rollout", "Bee Revenge", "Vengeance" };
+    protected override List<string> BannedAttacks => bannedAttacks;
 
     protected override void CustomFormatRules(PokemonDeck deck)
     {
@@ -20,28 +21,7 @@ public class GCExpandedLimited : PokemonFormat
                 {
                     current.AddNote(NoteType.INVALID, "Cards with Rule Boxes are not allowed.");
                 }
-                if (current.Reference.Supertype == CardSupertype.POKEMON && CardHasBannedAttack(current))
-                {
-                    current.AddNote(NoteType.INVALID, "This card has a banned attack.");
-                }
             }
         }
-    }
-
-    private bool CardHasBannedAttack(CardInDeck card)
-    {
-        PokemonCard reference = card.Reference;
-        PokemonAttack[] attacks = reference.Attacks;
-        for (int i = 0, count = attacks.Length; i < count; i++)
-        {
-            if (Array.Exists(bannedAttacks, (e) =>
-            {
-                return e == attacks[i].Name;
-            }))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -11,8 +11,19 @@ public class GCSingleFile : PokemonFormat
     protected override List<ShortCard> FormatBanList { get => bannedCards; }
     private List<ShortCard> bannedCards = new List<ShortCard>()
     {
-        // TODO
+        new ShortCard("PGO", "21"), // Magikarp PGO
+        new ShortCard("PGO", "22"), // Gyarados PGO
+        new ShortCard("PGO", "53"), // Ditto PGO
+        new ShortCard("AOR", "69"), // Ace Trainer
+        new ShortCard("AOR", "10"), // Vespiquen
+        new ShortCard("PLF", "12"), // Flareon (Vengeance)
+        new ShortCard("CPA", "26") // Machamp (Revenge)
     };
+
+    private List<string> bannedAttacks = new List<string>(){"Mad Party", "Night March", "Lost March", "Matron's Anger"};
+    protected override List<string> BannedAttacks { get => bannedAttacks; }
+    private List<string> bannedAbilities = new List<string>(){"Shady Dealings"};
+    protected override List<string> BannedAbilities { get => bannedAbilities; }
 
     protected override void CustomFormatRules(PokemonDeck deck)
     {

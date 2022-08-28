@@ -18,8 +18,12 @@ public class GCAllFourOne : PokemonFormat
 
     protected override List<ShortCard> FormatBanList { get => banList; }
     protected override bool RequireStandardLegal { get => true; }
+    protected override bool RuleBoxesBanned => true;
 
-    public string[] bannedAttacks = new string[] { "Mad Party", "Let's All Rollout" };
+    private List<string> bannedAttacks = new List<string>(){ "Mad Party", "Let's All Rollout" };
+    protected override List<string> BannedAttacks { get => bannedAttacks; }
+    private List<string> bannedAbilities = new List<string>(){ "Shady Dealings" };
+    protected override List<string> BannedAbilities { get => bannedAbilities; }
 
     protected override void CustomFormatRules(PokemonDeck deck)
     {
@@ -41,26 +45,6 @@ public class GCAllFourOne : PokemonFormat
                     cardCounts.Add(current.Reference.Name, new StashedCard(current.Quantity, current));
                 }
             }
-
-            if (current.Reference.Supertype != CardSupertype.UNKNOWN)
-            {
-                if (current.Reference.HasRulebox())
-                {
-                    current.AddNote(NoteType.INVALID, "Cards with Rule Boxes are not allowed.");
-                }
-                if (current.Reference.Supertype == CardSupertype.POKEMON && CardHasBannedAttack(current))
-                {
-                    current.AddNote(NoteType.INVALID, "This card has a banned attack.");
-                }
-                // Ability check
-                if (current.Reference.Supertype == CardSupertype.POKEMON)
-                {
-                    if (Array.Exists(current.Reference.Abilities, (a) => a.Name == "Shady Dealings"))
-                    {
-                        current.AddNote(NoteType.INVALID, "This card has a banned ability.");
-                    }
-                }
-            }
         }
 
         foreach (KeyValuePair<string, StashedCard> combination in cardCounts)
@@ -73,23 +57,6 @@ public class GCAllFourOne : PokemonFormat
                 }
             }
         }
-    }
-
-    private bool CardHasBannedAttack(CardInDeck card)
-    {
-        PokemonCard reference = card.Reference;
-        PokemonAttack[] attacks = reference.Attacks;
-        for (int i = 0, count = attacks.Length; i < count; i++)
-        {
-            if (Array.Exists(bannedAttacks, (e) =>
-            {
-                return e == attacks[i].Name;
-            }))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     private class StashedCard
