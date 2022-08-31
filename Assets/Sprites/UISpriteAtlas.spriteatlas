@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UISpriteAtlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 21300000, guid: 405ec13050b0d27409cb13e6f7c4ee36, type: 3}
+    - {fileID: 21300000, guid: 6a49545ed2fe06f459fdcac3d48f363a, type: 3}
+    - {fileID: 21300000, guid: ae0d4c81f72be054682a862c3da7fe8b, type: 3}
+    - {fileID: 21300000, guid: 4cc42963a72f03c4695834a2ff35be09, type: 3}
+    - {fileID: 21300000, guid: 850eee37cb5c4654aa27732619542dfb, type: 3}
+    - {fileID: 21300000, guid: a98deb904ee324f459c8128549712150, type: 3}
+    - {fileID: 21300000, guid: 2d2033f20cefb9448bfda3315f57ee33, type: 3}
+    - {fileID: 21300000, guid: 9512d073583cfd741a2cb6b02dbdbb9c, type: 3}
+    - {fileID: 21300000, guid: 09550042f74d6d14b901e31e74fd9c0f, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 405ec13050b0d27409cb13e6f7c4ee36, type: 3}
+  - {fileID: 21300000, guid: a98deb904ee324f459c8128549712150, type: 3}
+  - {fileID: 21300000, guid: ae0d4c81f72be054682a862c3da7fe8b, type: 3}
+  - {fileID: 21300000, guid: 09550042f74d6d14b901e31e74fd9c0f, type: 3}
+  - {fileID: 21300000, guid: 2d2033f20cefb9448bfda3315f57ee33, type: 3}
+  - {fileID: 21300000, guid: 4cc42963a72f03c4695834a2ff35be09, type: 3}
+  - {fileID: 21300000, guid: 9512d073583cfd741a2cb6b02dbdbb9c, type: 3}
+  - {fileID: 21300000, guid: 850eee37cb5c4654aa27732619542dfb, type: 3}
+  - {fileID: 21300000, guid: 6a49545ed2fe06f459fdcac3d48f363a, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Background
+  - ScrollbarBackground
+  - GreyscaleBackground
+  - QuantityCircle
+  - DropdownBackground
+  - GreyscaledButton
+  - SelectionImage
+  - ScrollbarBase
+  - GreenButton
+  m_RenderDataMap: {}
+  m_Tag: UISpriteAtlas
+  m_IsVariant: 0

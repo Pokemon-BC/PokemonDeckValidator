@@ -7,7 +7,8 @@ using PKMN.Cards;
 public class GCItTakesTwo : PokemonFormat
 {
     protected override bool RequireStandardLegal { get => true; }
-    public string[] bannedAttacks = new string[] { "Mad Party", "Let's All Rollout" };
+    private List<string> bannedAttacks = new List<string> { "Mad Party", "Let's All Rollout" };
+    protected override List<string> BannedAttacks => bannedAttacks;
 
 
     protected override void CustomFormatRules(PokemonDeck deck)
@@ -21,10 +22,6 @@ public class GCItTakesTwo : PokemonFormat
                 if (current.Reference.HasRulebox())
                 {
                     current.AddNote(NoteType.INVALID, "Cards with Rule Boxes are not allowed.");
-                }
-                if (CardHasBannedAttack(current))
-                {
-                    current.AddNote(NoteType.INVALID, "This card has a banned attack.");
                 }
                 if (Array.Exists(current.Reference.Abilities, (a) => a.Name == "Shady Dealings"))
                 {
@@ -41,22 +38,5 @@ public class GCItTakesTwo : PokemonFormat
                 }
             }
         }
-    }
-
-    private bool CardHasBannedAttack(CardInDeck card)
-    {
-        PokemonCard reference = card.Reference;
-        PokemonAttack[] attacks = reference.Attacks;
-        for (int i = 0, count = attacks.Length; i < count; i++)
-        {
-            if (Array.Exists(bannedAttacks, (e) =>
-            {
-                return e == attacks[i].Name;
-            }))
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }

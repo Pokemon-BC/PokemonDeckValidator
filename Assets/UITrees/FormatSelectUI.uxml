@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:VisualElement name="Root" style="width: 100%; height: 100%; -unity-background-image-tint-color: rgb(255, 255, 255); background-color: rgb(2, 0, 89); border-left-color: rgb(255, 226, 0); border-right-color: rgb(255, 226, 0); border-top-color: rgb(255, 226, 0); border-bottom-color: rgb(255, 226, 0); border-left-width: 8px; border-right-width: 8px; border-top-width: 8px; border-bottom-width: 8px; border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">
+        <ui:Label text="Pokemon TCG Validator" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; font-size: 46px; color: rgb(255, 226, 0);" />
+        <ui:VisualElement>
+            <ui:DropdownField label="Format Select" index="0" choices="Hello world, choice 2, choice 3" name="format-select" style="font-size: 20px; width: 80%; justify-content: flex-start; left: 10%;" />
+        </ui:VisualElement>
+        <ui:ScrollView style="top: 5%; max-height: 65%; min-height: 65%; max-width: 83%; min-width: 83%; left: 9%; background-color: rgb(1, 0, 46); border-left-color: rgb(3, 0, 65); border-right-color: rgb(3, 0, 65); border-top-color: rgb(3, 0, 65); border-bottom-color: rgb(3, 0, 65); border-left-width: 8px; border-right-width: 8px; border-top-width: 8px; border-bottom-width: 8px; border-top-left-radius: 8px; border-bottom-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; bottom: 10%; justify-content: space-around; transform-origin: center;">
+            <ui:Label text="Deck List" display-tooltip-when-elided="true" style="-unity-text-align: upper-center; justify-content: flex-start;" />
+            <ui:VisualElement style="justify-content: space-around;">
+                <ui:TextField picking-mode="Ignore" value="filler text" text="&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;&#10;" multiline="true" name="decklist-entry" style="justify-content: flex-start;" />
+            </ui:VisualElement>
+        </ui:ScrollView>
+        <ui:Button text="Submit" display-tooltip-when-elided="true" name="submit-button" style="left: 37.5%; right: auto; top: 5%; align-items: center; width: 25%; justify-content: center; font-size: 26px;" />
+    </ui:VisualElement>
+</ui:UXML>

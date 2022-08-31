@@ -13,8 +13,11 @@ public abstract class PokemonFormat
     protected virtual bool RequireStandardLegal { get => false; }
     protected virtual bool RequireExpandedLegal { get => false; }
     protected virtual bool RequireUnlimitedLegal { get => false; }
+    protected virtual bool RuleBoxesBanned { get => false; }
 
     protected virtual List<ShortCard> FormatBanList { get => null; }
+    protected virtual List<string> BannedAttacks { get => null; }
+    protected virtual List<string> BannedAbilities { get => null; }
 
     public void CheckDeckInFormat(PokemonDeck deck)
     {
@@ -26,6 +29,8 @@ public abstract class PokemonFormat
         LegalitiesCheck(deck);
         // Ban List
         ApplyBanList(deck);
+        // Ban List for attacks and abilities
+        ApplyAttackAbilityBanlist(deck);
         // Allow the format to apply custom rules
         CustomFormatRules(deck);
     }
@@ -162,6 +167,13 @@ public abstract class PokemonFormat
                         cid.AddNote(NoteType.INVALID, "This card is not Legal in the Standard format.");
                     }
                 }
+                if (RuleBoxesBanned)
+                {
+                    if (cid.Reference.HasRulebox())
+                    {
+                        cid.AddNote(NoteType.INVALID, "Cards with Ruleboxes are banned in this format.");
+                    }
+                }
             }
         }
     }
@@ -186,6 +198,61 @@ public abstract class PokemonFormat
                 }
             }
         }
+    }
+
+    private void ApplyAttackAbilityBanlist(PokemonDeck deck)
+    {
+        for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
+        {
+            CardInDeck cid = deck.DeckCards[i];
+            PokemonCard reference = cid.Reference;
+
+            if (reference.Supertype == CardSupertype.POKEMON)
+            {
+                if (BannedAttacks != null)
+                {
+                    if (CardHasBannedAttack(cid))
+                    {
+                        cid.AddNote(NoteType.INVALID, "This card has a banned attack.");
+                    }
+                }
+                if (BannedAbilities != null)
+                {
+                    if (CardHasBannedAbility(cid))
+                    {
+                        cid.AddNote(NoteType.INVALID, "This card has a banned ability.");
+                    }
+                }
+            }
+        }
+    }
+
+    protected bool CardHasBannedAttack(CardInDeck card)
+    {
+        PokemonCard reference = card.Reference;
+        PokemonAttack[] attacks = reference.Attacks;
+        for (int i = 0, count = attacks.Length; i < count; i++)
+        {
+            if (BannedAttacks.Contains(attacks[i].Name))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected bool CardHasBannedAbility(CardInDeck card)
+    {
+        PokemonCard reference = card.Reference;
+        PokemonAbility[] abilities = reference.Abilities;
+        for (int i = 0, count = abilities.Length; i < count; i++)
+        {
+            if (BannedAbilities.Contains(abilities[i].Name))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected abstract void CustomFormatRules(PokemonDeck deck);

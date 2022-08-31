@@ -16,6 +16,9 @@ public class GCMayFlowers : PokemonFormat
     };
     protected override List<ShortCard> FormatBanList { get => banList; }
 
+    private List<string> bannedAbilities = new List<string>() { "Shady Dealings" };
+    protected override List<string> BannedAbilities { get => bannedAbilities; }
+
     protected override void CustomFormatRules(PokemonDeck deck)
     {
         for (int i = 0, count = deck.DeckCards.Count; i < count; i++)
@@ -33,14 +36,6 @@ public class GCMayFlowers : PokemonFormat
                 if (Array.Exists(current.Subtypes, (e) => e == CardSubtype.SINGLE_STRIKE || e == CardSubtype.RAPID_STRIKE || e == CardSubtype.FUSION_STRIKE))
                 {
                     cid.AddNote(NoteType.INVALID, "Strike Cards are not allowed in this format.");
-                }
-            }
-            // Shady Dealings
-            if (current.Supertype == CardSupertype.POKEMON && current.Abilities.Length != 0)
-            {
-                if (Array.Exists(current.Abilities, (e) => e.Name == "Shady Dealings"))
-                {
-                    cid.AddNote(NoteType.INVALID, "Cards with the ability Shady Dealings are not allowed in this deck");
                 }
             }
             // Type clause
