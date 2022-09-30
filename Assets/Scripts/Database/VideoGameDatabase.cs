@@ -21,7 +21,7 @@ namespace PKMN
             for (int i = 0, count = data.data.Length; i < count; i++)
             {
                 VGPokemon current = data.data[i];
-                if(!pokemonNameToPokedex.TryAdd(current.Name, current))
+                if (!pokemonNameToPokedex.TryAdd(current.Name, current))
                 {
                     Debug.LogWarning($"Failed to add {current.Name}, hopefully it isn't a problem");
                 }
