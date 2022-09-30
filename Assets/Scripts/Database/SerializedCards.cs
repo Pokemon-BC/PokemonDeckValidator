@@ -101,6 +101,7 @@ namespace PKMN
                 {"VMAX", CardSubtype.VMAX},
                 {"V-UNION", CardSubtype.V_UNION},
                 {"VSTAR", CardSubtype.VSTAR},
+                {"Radiant", CardSubtype.RADIANT},
                 // Trainers
                 {"Item", CardSubtype.ITEM},
                 {"Pokémon Tool", CardSubtype.PKMN_TOOL},
